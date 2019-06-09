@@ -1,0 +1,1334 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="thumbnail.png" />
+  <title>Lexington Convention Center Interactive Map</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <style type="text/css" media="screen">
+	  #canvases {
+		  position: relative;
+		  overflow: auto;
+	  }
+
+	  canvas {
+		  position: absolute;
+		  left: 0px;
+		  top: 0px;
+		  border: 1px red solid;
+	  }
+
+	  body {
+		  margin: 0;
+		  padding: 0;
+		  background: #083C5D;
+	  }
+
+	  #everything {
+		  text-align: center;
+		  padding-bottom: 0px;
+	  }
+
+	  h1 {
+		  font-family: verdana;
+		  color: #FFFFFF;
+		  margin-top: 0px;
+	  }
+
+	  p2 {
+		  font-family: verdana;
+		  font-size: 24px;
+		  color: white;
+	  }
+
+	  nav {
+		  backface-visibility: hidden;
+		  bottom: 0px;
+		  width: 100%;
+		  padding: 5px 0px;
+		  text-align: center;
+		  opacity: 1;
+		  background-color: #708090;
+	  }
+
+	  ul {
+		  list-style: none;
+	  }
+
+	  li {
+		  display: inline;
+		  margin: 20px;
+	  }
+
+	  a {
+		  color: white;
+		  font-family: verdana;
+		  font-weight: bold;
+		  margin: 5px 85px;
+		  font-size: 25px;
+	  }
+
+	  select {
+		  overflow-y: scroll;
+		  font-size: 45px;
+		  font-weight: bold;
+		  background-color: white;
+		  color: black;
+		  opacity: .9;
+		  border-radius: 20px;
+		  width: 450px;
+		  height: 100px;
+	  }
+
+	  @media only screen and (max-width: 1080px) {
+		  select {
+			  font-size: 35px;
+			  width: 49%;
+		  }
+
+		  a {
+			  margin: 5px 20px;
+		  }
+	  }
+
+	  img {
+		  display: block;
+		  margin: 0px auto;
+	  }
+
+	  .selection {
+		  padding: 20px;
+		  text-align: center;
+	  }
+
+	  @media only screen and (max-width: 6000px) {
+
+		  h1 {
+			  font-size: 50px;
+		  }
+
+		  p2 {
+			  font-size: 35px;
+			  margin: 15px auto;
+		  }
+
+		  li {
+			  display: block;
+		  }
+
+		  p3 {
+			  font-size: 30px;
+			  color: white;
+			  font-weight: normal;
+			  display: block;
+			  /*text-align: center;*/
+			  font-family: verdana;
+			  padding: 15px 0px;
+			  /*	background-color: white;*/
+			  width: 100%;
+			  display: inline-block;
+		  }
+
+	  }
+
+	  elevator {
+		  position: relative;
+		  top: 50px;
+		  z-index: -1
+	  }
+
+	  .switch {
+		  position: relative;
+		  display: inline-block;
+		  width: 100px;
+		  height: 60px;
+		  top: -30px;
+
+	  }
+
+	  /* Hide default HTML checkbox */
+	  .switch input {
+		  opacity: 0;
+		  width: 0;
+		  height: 0;
+	  }
+
+	  /* The slider */
+	  .slider {
+		  position: absolute;
+		  cursor: pointer;
+		  top: 0;
+		  left: 0;
+		  right: 0;
+		  bottom: 0;
+		  background-color: #ccc;
+		  -webkit-transition: .4s;
+		  transition: .4s;
+	  }
+
+	  .slider:before {
+		  position: absolute;
+		  content: "";
+		  height: 45px;
+		  width: 45px;
+		  left: 6px;
+		  bottom: 7px;
+		  background-color: white;
+		  -webkit-transition: .4s;
+		  transition: .4s;
+	  }
+
+	  input:checked+.slider {
+		  background-color: #2196F3;
+	  }
+
+	  input:focus+.slider {
+		  box-shadow: 0 0 1px #2196F3;
+	  }
+
+	  input:checked+.slider:before {
+		  -webkit-transform: translateX(40px);
+		  -ms-transform: translateX(40px);
+		  transform: translateX(px);
+	  }
+
+	  /* Rounded sliders */
+	  .slider.round {
+		  border-radius: 34px;
+	  }
+
+	  .slider.round:before {
+		  border-radius: 50%;
+	  }
+
+	  */ .parent {
+		  position: relative;
+		  top: 0;
+		  left: 0;
+	  }
+
+	  .image1 {
+		  position: relative;
+		  top: 0;
+		  left: 0;
+	  }
+
+	  .image2 {
+		  position: absolute;
+		  top: 30px;
+		  left: 70px;
+	  }
+
+	  CustNodeTxt1 {
+		  font-size: 30px;
+		  color: white;
+		  font-weight: normal;
+		  display: block;
+		  font-family: verdana;
+		  width: 300px;
+		  display: inline-block;
+	  }
+
+	  this {
+		  font-size: 30px;
+		  color: white;
+		  font-weight: normal;
+		  display: block;
+		  text-align: center;
+		  font-family: verdana;
+
+
+	  }
+
+	  CustNodeTxt2 {
+		  font-size: 30px;
+		  color: white;
+		  font-weight: normal;
+		  display: block;
+		  font-family: verdana;
+		  width: 100px;
+		  display: inline-block;
+	  }
+
+	  or {
+		  font-size: 65px;
+		  color: white;
+		  font-weight: normal;
+		  display: block;
+		  text-align: center;
+		  font-family: verdana;
+		  width: 100%;
+		  display: inline-block;
+		  background-color: #708090;
+		  opacity: .8;
+		  padding-top: 0px;
+		  padding-bottom: 15px;
+		  margin-bottom: 15px;
+		  margin-top: 20px;
+
+	  }
+
+	  .floatingmenu {
+		  position: fixed;
+		  height: 100%;
+		  background: gray;
+		  padding: 5px;
+		  width: 100px;
+		  z-index: 100;
+	  }
+
+	  .maininterface {
+		  margin-left: 105px;
+	  }
+
+	  input[type="button"] {
+		  background-color: #ffffff;
+		  font-size: 40px;
+		  font-weight: bold;
+		  border: 0px;
+		  border-radius: 25px
+	  }
+
+	  .button {
+		  width: 100px;
+		  height: 50px;
+		  background-color: #eee;
+		  font-size: 20px;
+		  font-weight: bold;
+		  border: 0px;
+		  border-radius: 25px
+	  }
+
+	  .list{
+		  overflow-y: scroll;
+		  min-height:0;
+		  -webkit-box-flex:1;
+		  flex:1;
+	  }
+
+
+	  @media only screen and (max-width: 1080px) {
+		  .button1 {
+			  width: 40%;
+			  height: 100px;
+			  background-color: #ffffff;
+			  font-size: 30px;
+			  font-weight: bold;
+			  border: 0px;
+			  border-radius: 25px
+		  }
+
+		  .button2 {
+			  width: 40%;
+			  font-size: 30px;
+			  height: 100px;
+			  background-color: #ffffff;
+			  font-weight: bold;
+			  border: 0px;
+			  border-radius: 25px
+		  }
+
+		  select {
+			  overflow-y: scroll;
+			  font-size: 35px;
+			  font-weight: bold;
+			  background-color: white;
+			  color: black;
+			  opacity: .9;
+			  border-radius: 20px;
+			  min-width: 47.5vw max-width: 450px;
+			  height: 100px;
+		  }
+
+		  h1 {
+			  font-size: 7.5vw;
+		  }
+
+		  p2 {
+			  font-family: verdana;
+			  font-size: 5vw;
+			  color: white;
+		  }
+
+		  or {
+			  font-size: 7.5vw;
+		  }
+
+		  p3 {
+			  font-size: 5vw;
+		  }
+
+		  this {
+			  font-size: 5vw;
+		  }
+	  }
+
+	  @media only screen and (max-width: 700px) {
+		  .button1 {
+			  width: 40%;
+			  height: 15vw;
+			  background-color: #ffffff;
+			  font-size: 6.5vw;
+			  font-weight: bold;
+			  border: 0px;
+			  border-radius: 25px
+		  }
+
+		  .button2 {
+			  width: 40%;
+			  font-size: 6.5vw;
+			  height: 15vw;
+			  background-color: #ffffff;
+			  font-weight: bold;
+			  border: 0px;
+			  border-radius: 25px
+		  }
+
+		  p2 {
+			  font-size: 5vw;
+		  }
+
+		  .switch {
+			  position: relative;
+			  display: inline-block;
+			  width: 15vw;
+			  height: 8vw;
+			  /*top: -30px;*/
+		  }
+
+		  .slider:before {
+			  position: absolute;
+			  content: "";
+			  height: 6vw;
+			  width: 6vw;
+			  left: 1vw;
+			  bottom: 1vw;
+			  background-color: white;
+			  -webkit-transition: .4s;
+			  transition: .4s;
+		  }
+
+		  input:checked+.slider:before {
+			  -webkit-transform: translateX(7vw);
+			  -ms-transform: translateX(7vw);
+			  transform: translateX(px);
+		  }
+
+		  a {
+			  color: white;
+			  font-family: verdana;
+			  font-weight: bold;
+			  margin: 2.5vw 5vw;
+			  font-size: 5vw;
+		  }
+
+		  select {
+			  overflow-y: scroll;
+			  font-size: 5vw;
+			  font-weight: bold;
+			  background-color: white;
+			  color: black;
+			  opacity: .9;
+			  border-radius: 20px;
+			  width: 47.5vw;
+			  height: 15vw;
+		  }
+	  }
+  </style>
+
+</head>
+
+<body>
+
+  <nav>
+	  <a href="">Home</a>
+	  <a href="about.html">About</a>
+	  <a href="https://goo.gl/forms/nF6PKPHSmJbqG1W13">Contact</a>
+  </nav>
+  <sidebar>
+  <div id="buttons" class='floatingmenu'>
+	  <button class="button" id="resetZoom" onclick="zoom(0)">Reset Zoom</button><br>
+		  <button class="button" id="zoomIn" onclick="zoom(1)">Zoom In</button><br>
+		  <button class="button" id="zoomOut" onclick="zoom(2)">Zoom Out</button><br>
+	  <button class="button" id="btnAdd" value="Add Drop" onclick="addNodes(true,false)">Add Drop</button><br>
+	  <button class="button" value="addNode" onclick="addNodes(false,false)">Add Nodes</button><br>
+	  <button class="button" value="addBath" onclick="addNodes(false,true)">Add Bath</button>
+	  <button class="button" value="addCon" onclick="addCons(false)">Add Cons</button><br>
+	  <button class="button" value="conStairs" onclick="addCons(true,false)">Add Stairs</button><br>
+	  <button class="button" value="conElev" onclick="addCons(true,true)">Add Elev Con</button><br>
+	  <button class="button" value="removeNode" onclick="remNode()">Remove Node</button><br>
+	  <button class="button" value="addLine" onclick="addLine()">Add on Line</button><br>
+	  <br>
+	  <button class="button" value="printInfo" onclick="printInfo()">print</button><br>
+	  <button class="button" value="recode" onclick="recode()">recode</button>
+
+	  <div style="max-height:300px;overflow:auto;" id= "nodeList" >Node List</div>
+  </div>
+</sidebar>
+
+
+
+  </div>
+  <br>
+	  <div class='maininterface'>
+	  <input type="file" accept='.jpg,.png' id="imageLoader" name="imageLoader" onchange='handleImage(event);'>
+  <br><textarea id = test></textarea>
+
+
+
+  <div id="everything">
+
+
+		  <this> Click Location On Map </this>
+		  <br>
+
+<!-- 			<input type="file" accept='.jpg,.png' id="imageLoader" name="imageLoader">
+-->
+		  <!-- <center>
+-->
+			  <!-- <div id="buttons">
+				  <button class="button1" value=" Current Location" onclick="addNodes(false);">Add Nodes</button>
+
+				  <button class="button2" value=" Destination" onclick="addCons()"> Add Cons</button>
+			  </div> -->
+			  <div onmousemove="mouseHover(event)"></div>
+			  <!-- <div class="popup" onmouseover="pop()"> click
+ <span class="popuptext" id="myPopup" value = "A sin"></span>
+</div> -->
+
+		  <!-- <div class="hidden">
+
+		  </div>
+		  </center> -->
+		  <div id='canvases'>
+				  <canvas id='background' style='z-index: 1'></canvas>
+				  <canvas id='map' style='z-index: 2'></canvas>
+				  <canvas id='overlay' style='z-index: 3'></canvas>
+			  </div>
+
+		  <br>
+
+
+  </div>
+
+		  <script type="text/javascript">
+			  function zoom(inout) {
+		  if (canb.style.height == '') {
+			  canb.style.height = cano.style.height = can.style.height = '100%'
+		  }
+		  if (inout == 1) {
+			  canb.style.height = cano.style.height = can.style.height = parseInt(canb.style.height) + 10 + '%'
+
+		  } else if (inout == 2) {
+			  canb.style.height = cano.style.height = can.style.height = parseInt(canb.style.height) - 10 + '%'
+		  } else {
+			  canb.style.height = cano.style.height = can.style.height = '100%'
+		  }
+	  }
+
+	  canvases = document.getElementById('canvases');
+	  canvases.style.height = window.innerHeight - canvases.getBoundingClientRect().top - 18 + 'px';
+	  canvases.style.width = window.innerWidth - canvases.getBoundingClientRect().left - 17 + 'px';
+
+var can = document.getElementById("map"); //main draw, paths
+var ctx = can.getContext("2d");
+var canb = document.getElementById('background') //background image
+var ctxb = canb.getContext('2d');
+var cano = document.getElementById('overlay'); //dynamic overlay
+var ctxo = cano.getContext('2d');
+
+document.getElementById('imageLoader').addEventListener('change', handleImage, false);
+
+function fitImg(img) {
+		  var iratio = img.width / img.height;
+		  var rect = can.getBoundingClientRect();
+		  var offset = [rect.left, rect.top]
+		  var wratio = (window.innerWidth - offset[0]) / (window.innerHeight - offset[1]);
+		  if (wratio < 1) {
+			  if (iratio < 1) {
+				  canb.height = window.innerHeight - offset[1];
+				  canb.width = canb.height * iratio;
+			  } else {
+				  canb.width = window.innerWidth - offset[0]
+				  canb.height = canb.width / iratio;
+			  }
+		  } else {
+			  if (iratio > 1) {
+				  canb.width = window.innerWidth - offset[0]
+				  canb.height = canb.width / iratio;
+			  } else {
+				  canb.height = window.innerHeight - offset[1];
+				  canb.width = canb.height * iratio;
+			  }
+		  }
+		  can.width = canb.width;
+		  can.height = canb.height;
+		  cano.width = canb.width;
+		  cano.height = canb.height;
+
+		  ctxb.drawImage(img, 0, 0, can.width, can.height);
+	  }
+
+var img = new Image();
+
+  function handleImage(e) {
+		  var reader = new FileReader();
+		  reader.onload = function(event) {
+
+			  img.onload = function() {
+				  fitImg(img);
+			  }
+			  img.src = event.target.result;
+		  }
+		  reader.readAsDataURL(e.target.files[0]);
+	  }
+
+// window.addEventListener('resize', fResize);
+
+	  function fResize(){
+		  fitImg(img);
+	  }
+
+
+var e = [];
+var addX = null;
+var addY = null;
+var addTog = true;
+var conTog = true;
+var remTog = true;
+var lineTog = true;
+var dropAdd = false;
+var bathAdd = false;
+var stairAdd = false;
+var elevAdd = false;
+var addCount = -1;
+var addCount2 = 1;
+var conCount = 0;
+var curr_x = 0;
+var curr_y = 0;
+var dest_x = 0;
+var dest_y = 0;
+var hoverNode = -1;
+var hovx = null;
+var hovy = null;
+var markNode = false;
+var namedNodes = [];
+var bathNodes = [];
+var elevNodes = [];
+var drawSize = 4;
+var _=Infinity
+cano.addEventListener("mousemove", mouseHover);
+
+function pop() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
+
+function printInfo(){
+
+  document.getElementById("test").innerHTML = ("coor\n")
+  for(var i = 0; i <coor.node.length;i++){
+	  document.getElementById("test").innerHTML+=(JSON.stringify(coor.node[i])+"\n")
+  }
+
+  document.getElementById("test").innerHTML+=("coor-close\n\ne\n")
+  for(var i = 0; i <conne.length;i++){
+  document.getElementById("test").innerHTML+=(JSON.stringify(conne[i])+"\n")
+  }
+  document.getElementById("test").innerHTML+=("e-close\n")
+  document.getElementById("test").innerHTML+=("\nOptions\n")
+
+  for(var i = 0;i<namedNodes.length;i++){
+	  document.getElementById("test").innerHTML+=("<option value="+namedNodes[i].toString()+">"+document.getElementById("nodeList").childNodes[(i+1)*3].value +"</option>"+"\n")
+  }
+
+  document.getElementById("test").innerHTML+=("Options-close\n\nBath Nodes\n"+JSON.stringify(bathNodes)+"\n")
+
+  document.getElementById("test").innerHTML+=("Bath-close\n\nElev Nodes\n"+JSON.stringify(elevNodes)+"\n"+"Elev-close")
+}
+
+
+
+
+function recode(){
+  var input = document.getElementById("test").value
+  var cood = input.substring(5,input.indexOf("coor-close"))
+  var coCount = 0
+
+  for(var i =0;i<cood.length;i++){
+	  if(cood.substring(i,i+1)=="\n"){
+		  coCount++
+	  }
+  }
+  console.log(coCount)
+  for(var i =0;i<coCount;i++){
+	  coor.node.push(JSON.parse(cood.substring(0,cood.indexOf("\n"))))
+	  cood = cood.substring(cood.indexOf("\n")+1)
+  }
+  e = JSON.parse(input.substring(input.indexOf("\ne\n")+3,input.indexOf("e-close")-1))
+  var opCount = 0;
+  var op = input.substring(input.indexOf("Options")+8,input.indexOf("Options-close"))
+  var nop = op+""
+  for(var i =0;i<op.length;i++){
+	  if(op.substring(i,i+1)=="\n"){
+		  opCount++
+	  }
+  }
+
+  for(var i =0;i<opCount;i++){
+	  addList()
+	  document.getElementById("nodeList").childNodes[(i+1)*3].value=nop.substring(nop.indexOf(">")+1,nop.indexOf("</op"))
+	  addCount2++
+	  nop = nop.substring(nop.indexOf("</option>")+9)
+  }
+  bathNodes = JSON.parse(input.substring(input.indexOf("\nBath Nodes\n")+12,input.indexOf("Bath-close")-1))
+  elevNodes = JSON.parse(input.substring(input.indexOf("\nElev Nodes\n")+12,input.indexOf("Elev-close")-1))
+  console.log(coor.node)
+  drawNodes()
+}
+
+//new stuffa
+function addList(){
+  // alert(addCount2.toString())
+  var br = document.createElement("BR");
+  document.getElementById("nodeList").appendChild(br);
+  var txt = document.createElement("TEXT");
+  txt.innerHTML = addCount2.toString()+"."
+  document.getElementById("nodeList").appendChild(txt);
+  var list = document.createElement("INPUT");
+  list.setAttribute("id", ("nameNode"+addCount2.toString()));
+  document.getElementById("nodeList").appendChild(list);
+}
+function remList(){
+  var list = document.getElementById("nodeList")
+  for(var i = namedNodes.indexOf(hoverNode);i<addCount2-2;i++){
+	  list.childNodes[(i+1)*3].value = list.childNodes[(i+2)*3].value
+  }
+  for(var i = 0;i<3;i++){
+	  list.removeChild(list.lastChild);
+  }
+  addCount2--;
+}
+
+function drawNodes(){
+  ctx.clearRect(0,0,can.width,can.height)
+  for(var i = 0; i<coor.node.length;i++){
+	  ctx.beginPath();
+	  ctx.lineWidth = drawSize;
+	  ctx.strokeStyle = "#59f442";
+	  ctx.arc(coor.node[i].x, coor.node[i].y, drawSize/2, 0, 2 * Math.PI);
+	  ctx.stroke()
+  }
+  for(var i = 0; i<e.length-1;i++){
+	  for(var j = 1; j<e.length;j++){
+		  if(e[i][j]!=_&&e[i][j]!=10000&&e[i][j]!=null){
+			  ctx.beginPath();
+				  ctx.moveTo(coor.node[i].x, coor.node[i].y); // set the start point
+				  ctx.lineTo(coor.node[j].x, coor.node[j].y); // set the end point
+				  ctx.lineWidth = drawSize;
+				  ctx.strokeStyle = "#ffff00";
+			  ctx.stroke()
+		  }
+	  }
+  }
+}
+
+function addNodes(drop,bath) {
+  showMap()
+  if (addTog)
+	  addTog = false;
+  if (!conTog)
+	  conTog = true;
+  if (!remTog)
+	  remTog = true;
+  if (!lineTog)
+	  lineTog = true;
+  cano.addEventListener("click", getCursorPosition2);
+
+  dropAdd = drop;
+  bathAdd = bath;
+
+}
+
+function getCursorPosition2(event) {
+
+  if (addTog)
+	  cano.removeEventListener("click", getCursorPosition2);
+  else {
+	  addX = 0;
+	  addY = 0;
+	  var rect = cano.getBoundingClientRect();
+	  addX = (event.clientX - rect.left) * can.width / rect.width;
+	  addY = (event.clientY - rect.top) * can.height / rect.height;
+	  var x = addX + 0
+	  var y = addY + 0
+	  coor.node.push({
+		  "x": addX,
+		  "y": addY
+	  })
+	  addCount++
+	  e[addCount] = []
+	  var _ = Infinity;
+		  for (var k = 0; k < addCount + 1; k++) {
+			  e[addCount][k] = _;
+			  e[k][addCount] = _;
+		  }
+
+
+	  drawNodes()
+	  if (dropAdd) {
+		  addList()
+		  namedNodes.push(addCount);
+		  addCount2 += 1
+
+	  }
+	  if(bathAdd){
+		  bathNodes.push(addCount);
+	  }
+  }
+}
+
+var conne = []
+function addCons(stairs,elev) {
+  if (conTog)
+	  conTog = false;
+  if (!addTog)
+	  addTog = true;
+  if (!remTog)
+	  remTog = true;
+  if (!lineTog)
+	  lineTog = true;
+  cano.addEventListener("click", getCursorPosition3);
+  stairAdd = stairs
+  elevAdd = elev;
+}
+var conA;
+var conB;
+var conClicked = false
+
+function getCursorPosition3(event) {
+  if (conTog)
+	  cano.removeEventListener("click", getCursorPosition3);
+  else {
+  if(found){
+	  var rect = cano.getBoundingClientRect();
+	  var x = (event.clientX - rect.left) * can.width / rect.width;
+	  var y = (event.clientY - rect.top) * can.height / rect.height;
+	  var min = drawSize+5
+	  var dc = false;
+	  var dd = false;
+	  // ctx.clearRect(0,0,ccon.width,ccon.height)
+
+
+	  for (var i = 0; i < coor.node.length; i++) {
+		  var d = Math.hypot(coor.node[i].x - x, coor.node[i].y - y)
+		  if (d <= drawSize+5 && d < min) {
+			  min = d;
+			  if (conCount % 2 == 0) {
+				  curr_x = coor.node[i].x;
+				  curr_y = coor.node[i].y;
+				  conA = i;
+				  dc = true;
+				  dd = false
+				  //conClicked = true;
+			  } else {
+				  dest_x = coor.node[i].x;
+				  dest_y = coor.node[i].y;
+				  conB = i;
+				  dd = true
+				  dc = false
+				  //conClicked = false;
+			  }
+		  }
+	  }
+	  if (dc) {
+		  markNode = true;
+	  }
+	  if(dd){
+		  markNode = false;
+	  }
+
+	  conCount += 1;
+	  if(conA != conB && dd){
+
+		  if (curr_x != 0 && curr_y != 0 && dest_x != 0 && dest_y != 0 && conCount % 2 == 0) {
+			  if(stairAdd){
+				  addstairs(conA,conB,10000)
+				  conne.push("addstairs("+conA+","+conB+")")
+				  if(elevAdd){
+					  if(!elevNodes.includes([conA,conB])&&!elevNodes.includes([conB,conA]))
+						  elevNodes.push([conA,conB])
+
+				  }
+			  }
+			  else{
+				  addConnection(conA, conB);
+				  conne.push("addConnections("+conA+","+conB+")")
+			  }
+			  drawNodes()
+			  if(namedNodes.includes(conA)){
+				  document.getElementById("nodeList").childNodes[(namedNodes.indexOf(conA)+1)*3].style.backgroundColor = "";
+			  }
+
+		  }
+	  }
+	  else if(conA == conB && dd){
+		  conA = null
+	  }
+
+
+
+  }
+
+  }
+}
+
+
+
+function mouseHover(event) {
+  var rect = cano.getBoundingClientRect();
+  hovx = (event.clientX - rect.left) * cano.width / rect.width;
+  hovy = (event.clientY - rect.top) * cano.height / rect.height;
+  // var cor = "X coords: " + hovx + ", Y coords: " + hovy;
+  // document.getElementById("demo").innerHTML = cor;
+
+  hover()
+}
+var c =-1
+var found = false;
+function hover() {
+  found = false
+  c++
+  hoverNode = -1
+  var min = drawSize+5;
+  for (var i = 0; i < coor.node.length; i++) {
+	  var d = Math.hypot(coor.node[i].x - hovx, coor.node[i].y - hovy)
+	  if (d < min) {
+		  min = d;
+		  hoverNode = i
+		  found = true
+	  }
+  }
+  ctxo.clearRect(0,0,cano.width,cano.height)
+  min = 50
+  if(!found){
+	  ctxo.clearRect(0,0,cano.width,cano.height)
+	  hoverNode = -1
+  }
+  if(markNode){
+			  ctxo.beginPath();
+			  ctxo.lineWidth = drawSize;
+			  ctxo.strokeStyle = "#ff0000";
+			  ctxo.arc(curr_x, curr_y, drawSize/2+10, 0, 2 * Math.PI);
+			  ctxo.stroke()
+		  }
+  if (hoverNode != -1) {
+	  ctxo.beginPath();
+	  ctxo.lineWidth = drawSize;
+	  ctxo.strokeStyle = "#ff0000";
+	  ctxo.arc(coor.node[hoverNode].x, coor.node[hoverNode].y, drawSize/2+10, 0, 2 * Math.PI);
+	  ctxo.stroke()
+  }
+  if(namedNodes.includes(hoverNode)){
+	  document.getElementById("nodeList").childNodes[(namedNodes.indexOf(hoverNode)+1)*3].style.backgroundColor = "yellow";
+  }
+  if(hoverNode==-1){
+	  for(var i=0;i<namedNodes.length;i++)
+		  if(i!=conA)
+			  document.getElementById("nodeList").childNodes[(i+1)*3].style.backgroundColor = "";
+  }
+}
+
+
+function remNode(){
+  if (remTog)
+	  remTog = false;
+  if (!addTog)
+	  addTog = true;
+  if (!conTog)
+	  conTog = true;
+  if (!lineTog)
+	  lineTog = true;
+  cano.addEventListener("click", remGCP);
+
+}
+function remGCP(event){
+  if (remTog)
+	  cano.removeEventListener("click", remGCP);
+  else {
+	  markNode = false;
+	  if (found){
+		  addCount--
+		  e.splice(hoverNode, 1)
+		  coor.node.splice(hoverNode,1)
+		  for (var i = 0; i < e.length; i++) {
+			  e[i].splice(hoverNode,1);
+		  }
+		  drawNodes()
+		  if(namedNodes.includes(hoverNode)){
+			  document.getElementById("nodeList").childNodes[(namedNodes.indexOf(hoverNode)+1)*3].style.backgroundColor = "";
+			  remList()
+			  for(var i = namedNodes.indexOf(hoverNode)+1;i<addCount2;i++){
+				  namedNodes[i]-=1;
+			  }
+			  namedNodes.splice(namedNodes.indexOf(hoverNode),1)
+		  }
+		  found = false
+	  }
+  }
+}
+
+var lineCount = 0
+function addLine(){
+  if (lineTog)
+	  lineTog = false;
+  if (!addTog)
+	  addTog = true;
+  if (!conTog)
+	  conTog = true;
+  if (!remTog)
+	  remTog = true;
+  cano.addEventListener("click", lineGCP);
+}
+var linA
+var linB
+function lineGCP(event) {
+  if (lineTog){
+	  lineCount = 0
+	  cano.removeEventListener("click", lineGCP);
+	  }
+  else {
+	  var rect = cano.getBoundingClientRect();
+	  var x = (event.clientX - rect.left) * can.width / rect.width;
+	  var y = (event.clientY - rect.top) * can.height / rect.height;
+	  var min = drawSize+5
+	  var dc = false;
+	  var dd = false;
+	  lineCount++;
+	  // ctx.clearRect(0,0,ccon.width,ccon.height)
+
+	  if(lineCount<3&& found){
+	  for (var i = 0; i < coor.node.length; i++) {
+		  var d = Math.hypot(coor.node[i].x - x, coor.node[i].y - y)
+		  if (d <= drawSize+5 && d < min) {
+			  min = d;
+			  if (lineCount == 1) {
+				  curr_x = coor.node[i].x;
+				  curr_y = coor.node[i].y;
+				  linA = i;
+				  dc = true;
+				  dd = false
+				  //conClicked = true;
+			  }
+			  else {
+				  dest_x = coor.node[i].x;
+				  dest_y = coor.node[i].y;
+				  linB = i;
+				  dd = true
+				  dc = false
+				  //conClicked = false;
+			  }
+		  }
+	  }
+	  if (dc) {
+		  markNode = true;
+	  }
+	  if(dd){
+		  markNode = false;
+		  addConnection(linA,linB)
+	  }
+	  }
+	  else{
+		  if( segdist(x,y,curr_x,curr_y,dest_x,dest_y,false)<=250){
+		  var ptl = segdist(x,y,curr_x,curr_y,dest_x,dest_y,true)
+		  coor.node.push({
+		  "x": ptl[0],
+		  "y": ptl[1],
+		  })
+		  addCount++
+		  e[addCount] = []
+		  var _ = Infinity;
+		  for (var k = 0; k < addCount + 1; k++) {
+			  e[addCount][k] = _;
+			  e[k][addCount] = _;
+		  }
+		  addConnection(addCount,linA)
+		  addConnection(addCount,linB)
+	  }
+	  }
+	  drawNodes()
+  }
+}
+
+function segdist(x, y, x1, y1, x2, y2, points) {
+  var A = x - x1;
+  var B = y - y1;
+  var C = x2 - x1;
+  var D = y2 - y1;
+  var dot = A * C + B * D;
+  var len_sq = C * C + D * D;
+  var param = -1;
+  if (len_sq != 0) //in case of 0 length line
+	  param = dot / len_sq;
+  var xx, yy;
+  if (param < 0) {
+	  xx = x1;
+	  yy = y1;
+  } else if (param > 1) {
+	  xx = x2;
+	  yy = y2;
+  } else {
+	  xx = x1 + param * C;
+	  yy = y1 + param * D;
+  }
+  var dx = x - xx;
+  var dy = y - yy;
+  if (points) {
+	  return [xx, yy];
+  }
+  return dx * dx + dy * dy;
+}
+// function dropdownfunc(){
+// 	if (document.getElementById("current").value != "#" && document.getElementById("destination").value != "#"){
+// 		can.style.display = "block";
+// 		main();}
+//
+// }
+
+var offset;
+var selector = 0;
+var elevbutton = document.getElementById("myButton");
+
+function selectpoint(number) {
+  addconnections();
+  elevbutton.style.zIndex = "-1"
+  can.style.display = "block";
+  window.scrollTo(0, 0);
+  offset = can.getBoundingClientRect().top;
+  can.style.marginTop = "0px";
+  selector = number;
+  clear();
+  cano.addEventListener("click", getCursorPosition);
+  hideElems();
+
+}
+
+function hideElems() {
+  var x = document.getElementById("everything");
+  var y = document.getElementById("nothing");
+  var z = document.getElementById("nothing1");
+  if (x.style.display === "none") {
+	  x.style.display = "block";
+	  y.style.display = "none";
+	  z.style.display = "none";
+  } else {
+	  x.style.display = "none";
+	  if (selector == 1) {
+		  y.style.display = "block";
+	  } else {
+		  z.style.display = "block";
+	  }
+  }
+  x = document.getElementById("title1");
+  if (x.style.display === "none") {
+	  x.style.display = "block";
+	  y.style.display = "none";
+	  z.style.display = "none";
+  } else {
+	  x.style.display = "none";
+	  if (selector == 1) {
+		  y.style.display = "block";
+	  } else {
+		  z.style.display = "block";
+	  }
+  }
+}
+
+function showMap() {
+  can.style.display = "block";
+  canb.style.display = "block";
+  cano.style.display = "block";
+
+
+}
+var elevToggle = -1;
+var goStairs = false;
+var newNodeX = 0;
+var newNodeY = 0;
+var conNodeX = 0;
+var conNodeY = 0;
+var onOne = false;
+var onTwo = false;
+var onThree = false;
+var g = 500;
+var custFloor = 0;
+var custFloors = [0, 0];
+var coor = {
+  "node": []
+}
+
+function addConnection(a, b) {
+  var c = Math.hypot(coor.node[a].x - coor.node[b].x, coor.node[a].y - coor.node[b].y)
+  e[a][b] = c;
+  e[b][a] = c;
+}
+
+function addstairs(a, b, c) {
+  e[a][b] = c;
+  e[b][a] = c;
+}
+
+function nogo(click) {
+  // var x = click[0];
+  // var y = click[1];
+  // if( ((x<3282 && x>394)&&(y<1839 && y>153)) && !(x>1408 &&y<1177)){
+  // 	return true;
+  // }
+  // else if( (x<1044 && x>421)&&(y<3312 && y>2167) ){
+  // 	return true;
+  // }
+  // else if(((x<3013 && x>1482)&&(y<3694 && y>2119)) &&!((x<1845 &&y>2780) || (y>(59/65*x+1425))) ){
+  // 	return true;
+  // }
+  // return false;
+  return true;
+}
+
+function customNode(number) {
+  var closeNode = []; //
+  var nodeLoc = [];
+  var closestPair = [
+	  [1, 1],
+	  [2, 2]
+  ];
+  var minDist = 1000001;
+  var d;
+  var run = false;
+  var one;
+  var two;
+  if (number == 122)
+	  custFloors[0] = custFloor;
+  else
+	  custFloors[1] = custFloor;
+  for (var i = 0; i < e.length; i++) {
+	  if (Math.hypot(coor.node[i].x - newNodeX, coor.node[i].y - newNodeY) < g && nogo([newNodeX, newNodeY])) {
+		  run = true;
+		  closeNode.push(i);
+		  nodeLoc.push([coor.node[i].x, coor.node[i].y]);
+	  }
+  }
+  if (run) {
+	  for (var i = 0; i < closeNode.length - 1; i++) {
+		  for (var j = 1; j < closeNode.length; j++) {
+			  if (e[closeNode[i]][closeNode[j]] != Infinity && e[closeNode[i]][closeNode[j]] != 1000) {
+				  if (!((newNodeY < 1915 && nodeLoc[i][1] > 1915) || (newNodeY > 1841 && nodeLoc[i][1] < 1841) || ((newNodeY > 1841) && ((newNodeX < 1356 && nodeLoc[i][0] > 1283) || (newNodeX > 1283 && nodeLoc[i][0] < 1283))))) {
+					  var d = segdist(newNodeX, newNodeY, nodeLoc[i][0], nodeLoc[i][1], nodeLoc[j][0], nodeLoc[j][1], false)
+					  if (d < minDist) {
+						  minDist = d;
+						  one = i;
+						  two = j;
+						  var boi = segdist(newNodeX, newNodeY, nodeLoc[i][0], nodeLoc[i][1], nodeLoc[j][0], nodeLoc[j][1], true)
+						  conNodeX = boi[0];
+						  conNodeY = boi[1];
+					  }
+				  }
+			  }
+		  }
+	  }
+	  coor.node[number].x = newNodeX
+	  coor.node[number].y = newNodeY
+	  coor.node[number + 1].x = conNodeX
+	  coor.node[number + 1].y = conNodeY
+	  breakCustConnections(number + 1);
+	  addConnection(number, number + 1);
+	  addConnection(number + 1, closeNode[one])
+	  addConnection(number + 1, closeNode[two])
+	  if (number == 122) {
+		  document.getElementById("current").options[1].hidden = false;
+		  document.getElementById("current").value = "122"
+		  clear();
+		  drawGo(122);
+	  } else {
+		  document.getElementById("destination").options[1].hidden = false;
+		  document.getElementById("destination").value = "124"
+		  clear();
+		  drawStop(124);
+	  }
+	  hideElems();
+  } else {
+	  newNodeX = null;
+	  newNodeY = null;
+	  ctxp.clearRect(0, 0, can.width, can.height);
+	  alert("Make sure you click in the map.")
+	  getCursorPosition();
+  }
+
+}
+
+function clear() {
+  ctx.clearRect(0, 0, can.width, can.height);
+}
+// function goElevator(){
+// 	elevToggle*= -1;
+//  dropdownfunc();
+// }
+function getCursorPosition(event) {
+  newNodeX = 0;
+  newNodeY = 0;
+  var rect = cano.getBoundingClientRect();
+  newNodeX = (event.clientX - rect.left) * can.width / rect.width;
+  newNodeY = (event.clientY - rect.top) * can.height / rect.height;
+  g = 500;
+
+  if (newNodeY < 1841) {
+	  custFloor = 1;
+	  onOne = true;
+  } else if (newNodeX < 1283 && newNodeY > 1915) {
+	  custFloor = 2;
+	  onTwo = true;
+  } else if (newNodeX > 1356 && newNodeY > 1915) {
+	  custFloor = 3;
+	  onThree = true;
+	  g = 1000
+  }
+  ctx.beginPath();
+  ctx.lineWidth = drawSize;
+  ctx.strokeStyle = "#59f442";
+  ctx.arc(newNodeX, newNodeY, drawSize/2, 0, 2 * Math.PI);
+  ctx.stroke();
+  if (selector == 1) {
+	  customNode(122);
+	  strt = 122
+  } else {
+	  customNode(124)
+	  dest = 124
+  }
+
+  selector = 0;
+  removelistener();
+  // elevbutton.style.zIndex = "1"
+  // can.style.marginTop = 'px';
+  // dropdownfunc();
+}
+
+function removelistener() {
+  cano.removeEventListener("click", getCursorPosition);
+}
+
+function breakCustConnections(number) {
+  for (var j = 0; j < 126; j++) {
+	  e[j][number] = _;
+	  e[number][j] = _;
+  }
+}
+
+function addconnections() {
+  for (var i = 0; i < matrixSize - 4; i++) {
+	  for (var k = 0; k < matrixSize - 4; k++) {
+		  e[i][k] = _;
+	  }
+  }
+}
+</script>
+</body>
+</html>

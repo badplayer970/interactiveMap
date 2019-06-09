@@ -1,0 +1,757 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="thumbnail.png" />
+	<title>Lexington Convention Center Interactive Map</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style type="text/css" media="screen">
+	canvas {
+		display:none;
+		background: #fff url(map.jpg) no-repeat;
+		margin-top: 0px;
+	}
+	body {
+		margin: 0;
+		background: #083C5D;
+	}
+	header {
+		text-align: center;
+		padding-bottom: 0px;
+	}
+	dropdown {
+		position: relative;
+		backface-visibility: hidden;
+		bottom: 0px;
+		width: 100%;
+		padding: 0px;
+		text-align: center;
+		opacity: 1;
+	}
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #0033A0;
+			min-width: 10px;
+			box-shadow: 0px 16px 16px 0px rgba(0,0,0,0.2);
+			/*padding: 0px 16px;*/
+			width: 180px;
+			size: 100px;
+		}
+
+	h1 {
+		font-family: verdana;
+		color: #FFFFFF;
+		margin-top: 0px;
+	}
+	p2 {
+		font-family: verdana;
+		font-size: 24px;
+		color: white;
+	}
+	nav {
+		backface-visibility: hidden;
+		bottom: 0px;
+		width: 100%;
+		padding: 5px 0px;
+		text-align: center;
+		opacity: 1;
+		background-color: #708090;
+	}
+	ul {
+		list-style: none;
+	}
+	li {
+		display: inline;
+		margin: 20px;
+	}
+	a {
+		color: white;
+		font-family: verdana;
+		font-weight: bold;
+		margin: 5px 85px;
+		font-size: 25px;
+	}
+	select {
+	overflow-y: scroll;
+	font-size:45px;
+	font-weight: bold;
+	background-color: white;
+	color: black;
+	opacity: .9;
+	border-radius: 20px;
+	width: 450px;
+	height:100px;
+	}
+	@media only screen and (max-width: 1080px){
+		select{
+			font-size: 35px;
+			width: 49%;
+		}
+		a{
+			margin: 5px 20px;
+		}
+	}
+	img {
+		display: block;
+		margin: 0px auto;
+	}
+	.selection {
+		padding: 20px;
+		text-align: center;
+	}
+	@media only screen and (max-width: 6000px) {
+		#map {
+			width: 100%;
+			background-size: 100% 100%;
+		}
+		h1 {
+			font-size: 50px;
+		}
+		p2{
+			font-size: 35px;
+			margin: 15px auto;
+		}
+		li {
+			display: block;
+		}
+			p3{
+			font-size: 30px;
+			color: white;
+			font-weight: normal;
+			display: block;
+			/*text-align: center;*/
+			font-family: verdana;
+			padding: 15px 0px;
+		/*	background-color: white;*/
+			width: 100%;
+			display: inline-block;
+		}
+
+	}
+	elevator{
+		position: relative;
+		top: 50px;
+		z-index: -1
+	}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 100px;
+  height: 60px;
+  top: -30px;
+
+}
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 45px;
+  width: 45px;
+  left: 6px;
+  bottom: 7px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+input:checked + .slider {
+  background-color: #2196F3;
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(40px);
+  -ms-transform: translateX(40px);
+  transform: translateX(px);
+}
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+*/
+.parent {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.image1 {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.image2 {
+  position: absolute;
+  top: 30px;
+  left: 70px;
+}
+CustNodeTxt1{
+font-size: 30px;
+			color: white;
+			font-weight: normal;
+			display: block;
+			font-family: verdana;
+			width: 300px;
+			display: inline-block;
+}
+this{
+font-size: 30px;
+			color: white;
+			font-weight: normal;
+			display: block;
+			text-align: center;
+			font-family: verdana;
+
+
+}
+CustNodeTxt2{
+font-size: 30px;
+			color: white;
+			font-weight: normal;
+			display: block;
+			font-family: verdana;
+			width: 100px;
+			display: inline-block;
+}
+or{
+	font-size: 65px;
+			color: white;
+			font-weight: normal;
+			display: block;
+			text-align: center;
+			font-family: verdana;
+			width: 100%;
+			display: inline-block;
+			background-color: #708090;
+			opacity: .8;
+			padding-top: 0px;
+			padding-bottom: 15px;
+			margin-bottom: 15px;
+			margin-top: 20px;
+
+}
+/* Select Your Current Loc*/
+/* Draw Map*/
+	input[type="button"]{
+		width: 25;
+		height: 100px;
+		background-color: #ffffff;
+		font-size: 40px;
+		font-weight: bold;
+		border: 0px;
+		border-radius: 25px
+	}
+	.button1{
+		width: 300px;
+		height: 100px;
+		background-color: #ffffff;
+		font-size: 40px;
+		font-weight: bold;
+		border: 0px;
+		border-radius: 25px
+	}
+	.button2{
+		width: 300px;
+		height: 100px;
+		background-color: #ffffff;
+		font-size: 40px;
+		font-weight: bold;
+		border: 0px;
+		border-radius: 25px
+	}
+	@media only screen and (max-width: 1080px){
+		.button1{
+			width:40%;
+			height: 100px;
+			background-color: #ffffff;
+			font-size: 30px;
+			font-weight: bold;
+			border: 0px;
+			border-radius: 25px
+		}
+		.button2{
+			width:40%;
+			font-size: 30px;
+			height: 100px;
+			background-color: #ffffff;
+			font-weight: bold;
+			border: 0px;
+			border-radius: 25px
+		}
+		select {
+			overflow-y: scroll;
+			font-size:35px;
+			font-weight: bold;
+			background-color: white;
+			color: black;
+			opacity: .9;
+			border-radius: 20px;
+			min-width: 47.5vw
+			max-width: 450px;
+			height:100px;
+		}
+		h1 {
+			font-size: 7.5vw;
+		}
+		p2 {
+			font-family: verdana;
+			font-size: 5vw;
+			color: white;
+		}
+		or{
+			font-size: 7.5vw;
+		}
+		p3{
+			font-size: 5vw;
+		}
+		this{
+			font-size: 5vw;
+		}
+	}
+	@media only screen and (max-width: 700px){
+	.button1{
+		width:40%;
+		height: 15vw;
+		background-color: #ffffff;
+		font-size: 6.5vw;
+		font-weight: bold;
+		border: 0px;
+		border-radius: 25px
+	}
+	.button2{
+		width:40%;
+		font-size: 6.5vw;
+		height: 15vw;
+		background-color: #ffffff;
+		font-weight: bold;
+		border: 0px;
+		border-radius: 25px
+	}
+	p2{
+		font-size: 5vw;
+	}
+	.switch {
+	  position: relative;
+	  display: inline-block;
+	  width: 15vw;
+	  height: 8vw;
+	  /*top: -30px;*/
+	}
+	.slider:before {
+	  position: absolute;
+	  content: "";
+	  height: 6vw;
+	  width: 6vw;
+	  left: 1vw;
+	  bottom: 1vw;
+	  background-color: white;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+	}
+	input:checked + .slider:before {
+	  -webkit-transform: translateX(7vw);
+	  -ms-transform: translateX(7vw);
+	  transform: translateX(px);
+	}
+	a {
+			color: white;
+			font-family: verdana;
+			font-weight: bold;
+			margin: 2.5vw 5vw;
+			font-size: 5vw;
+	}
+	select {
+			overflow-y: scroll;
+			font-size:5vw;
+			font-weight: bold;
+			background-color: white;
+			color: black;
+			opacity: .9;
+			border-radius: 20px;
+			width: 47.5vw;
+			height:15vw;
+		}
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+	  <nav>
+        <a href="">Home</a>
+        <a href="about.html">About</a>
+        <a href="https://goo.gl/forms/nF6PKPHSmJbqG1W13">Contact</a>
+    </nav>
+    <div id = "title1">
+	<header>
+		<h1 id="testingid">Lexington Convention Center Interactive Map</h1>
+	</header>
+	</div>
+
+<canvas id='map' width='3714' height ='3714'></canvas>
+
+
+	<div id = "everything">
+	<div class="header">
+
+<this>  Click Location On Map </this>
+<br>
+
+
+<center>
+
+	<div id="buttons">
+    <button class="button1" value=" Current Location" onclick="addNodes()">Go
+</button>
+
+    <button class="button2" value=" Destination" onclick="showMap();">Show
+</button>
+ </div>
+
+<div class="hidden">
+	<script type="text/javascript">
+		<!--//--><![CDATA[//><!--
+			var images = new Array()
+			function preload() {
+				for (i = 0; i < preload.arguments.length; i++) {
+					images[i] = new Image()
+					images[i].src = preload.arguments[i]
+				}
+			}
+			preload("map.jpg")
+		//--><!]]>
+	</script>
+</div>
+<script type = "text/javascript">
+var can = document.getElementById("map");
+var ctx = can.getContext("2d");
+var clip = document.getElementById("map");
+var ctxp = clip.getContext("2d");
+var cadd = document.getElementById("map");
+var ctxa = clip.getContext("2d");
+var e = [];
+var addX = null;
+var addY = null;
+
+
+function addNodes(){
+	showMap()
+	cadd.addEventListener("click", getCursorPosition2);
+}
+function getCursorPosition2(event) {
+	addX = 0;
+	addY = 0;
+	var rect = cadd.getBoundingClientRect();
+	addX = (event.clientX - rect.left)* can.width /rect.width;
+	addY = (event.clientY - rect.top)* can.height/rect.height;
+	ctxa.beginPath();
+		ctxa.lineWidth = 8;
+		ctxa.strokeStyle="#59f442";
+		ctxa.arc(addX,addY,5,0,2*Math.PI);
+		ctxa.stroke()
+	coor.node.push({ "x": addX, "y": addY})
+
+	alert(coor.node[coor.node.length-1].x)
+
+	cadd.removeEventListener("click",getCursorPosition2);
+	// elevbutton.style.zIndex = "1"
+	// dropdownfunc();
+}
+
+
+
+function segdist(x, y, x1, y1, x2, y2, points) {
+  var A = x - x1;
+  var B = y - y1;
+  var C = x2 - x1;
+  var D = y2 - y1;
+  var dot = A * C + B * D;
+  var len_sq = C * C + D * D;
+  var param = -1;
+  if (len_sq != 0) //in case of 0 length line
+  	param = dot / len_sq;
+  var xx, yy;
+  if (param < 0) {
+	xx = x1;
+	yy = y1;
+  }
+  else if (param > 1) {
+	xx = x2;
+	yy = y2;
+  }
+  else {
+	xx = x1 + param * C;
+	yy = y1 + param * D;
+  }
+  var dx = x - xx;
+  var dy = y - yy;
+  if(points){
+  	return [xx,yy];
+  }
+  return dx * dx + dy * dy;
+}
+// function dropdownfunc(){
+// 	if (document.getElementById("current").value != "#" && document.getElementById("destination").value != "#"){
+// 		can.style.display = "block";
+// 		main();}
+//
+// }
+
+var offset;
+var selector = 0;
+var elevbutton = document.getElementById("myButton");
+
+function selectpoint(number){
+	addconnections();
+	elevbutton.style.zIndex = "-1"
+	can.style.display = "block";
+	window.scrollTo(0,0);
+	offset = can.getBoundingClientRect().top;
+	can.style.marginTop = "0px";
+	selector = number;
+	clear();
+	can.addEventListener("click", getCursorPosition);
+	hideElems();
+
+}
+function hideElems(){
+var x = document.getElementById("everything");
+var y = document.getElementById("nothing");
+var z = document.getElementById("nothing1");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+    y.style.display = "none";
+    z.style.display = "none";
+  } else {
+    x.style.display = "none";
+    if (selector == 1){
+    y.style.display = "block";
+}
+else{
+	z.style.display = "block";
+}
+  }
+  x = document.getElementById("title1");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+    y.style.display = "none";
+    z.style.display = "none";
+  } else {
+    x.style.display = "none";
+    if (selector == 1){
+    y.style.display = "block";
+}
+else{
+	z.style.display = "block";
+}
+  }
+}
+function showMap() {
+	can.style.display = "block";
+	main();
+}
+var elevToggle = -1;
+var goStairs = false;
+var newNodeX = 0;
+var newNodeY = 0;
+var conNodeX = 0;
+var conNodeY = 0;
+var onOne = false;
+var onTwo = false;
+var onThree = false;
+var g = 500;
+var custFloor = 0;
+var custFloors =[0,0];
+var coor = {
+ 	"node":[
+
+ 	]
+ }
+ function addConnection(a,b) {
+	var c = Math.hypot(coor.node[a].x-coor.node[b].x, coor.node[a].y-coor.node[b].y)
+	e[a][b] = c;
+	e[b][a] = c;
+}
+function addstairs(a,b,c){
+	e[a][b] = c;
+	e[b][a] = c;
+}
+function nogo(click){
+	// var x = click[0];
+	// var y = click[1];
+	// if( ((x<3282 && x>394)&&(y<1839 && y>153)) && !(x>1408 &&y<1177)){
+	// 	return true;
+	// }
+	// else if( (x<1044 && x>421)&&(y<3312 && y>2167) ){
+	// 	return true;
+	// }
+	// else if(((x<3013 && x>1482)&&(y<3694 && y>2119)) &&!((x<1845 &&y>2780) || (y>(59/65*x+1425))) ){
+	// 	return true;
+	// }
+	// return false;
+	return true;
+}
+
+function customNode(number){
+	var closeNode = [];//
+	var nodeLoc = [];
+	var closestPair = [[1,1],[2,2]];
+	var minDist = 1000001;
+	var d;
+	var run = false;
+	var one;
+	var two;
+	if(number == 122)
+ 		custFloors[0] = custFloor;
+ 	else
+ 		custFloors[1] = custFloor;
+	for(var i=0; i<e.length; i++){
+		if(Math.hypot(coor.node[i].x-newNodeX, coor.node[i].y-newNodeY) < g && nogo([newNodeX,newNodeY])){
+			run = true;
+			closeNode.push(i);
+			nodeLoc.push([coor.node[i].x,coor.node[i].y]);
+		}
+	}
+	if(run){
+		for(var i=0; i<closeNode.length-1; i++){
+			for(var j=1; j<closeNode.length; j++){
+				if( e[closeNode[i]][closeNode[j]]!=Infinity && e[closeNode[i]][closeNode[j]]!=1000){
+					if(!((newNodeY<1915&&nodeLoc[i][1]>1915)||(newNodeY>1841&&nodeLoc[i][1]<1841)||((newNodeY>1841)&&((newNodeX<1356&&nodeLoc[i][0]>1283)||(newNodeX>1283&&nodeLoc[i][0]<1283))))){
+						var d = segdist(newNodeX, newNodeY,nodeLoc[i][0], nodeLoc[i][1], nodeLoc[j][0], nodeLoc[j][1], false)
+						if(d<minDist){
+							minDist = d;
+							one= i;
+							two= j;
+							var boi = segdist(newNodeX, newNodeY,nodeLoc[i][0], nodeLoc[i]	[1], nodeLoc[j][0], nodeLoc[j][1], true)
+							conNodeX = boi[0];
+							conNodeY = boi[1];
+						}
+ 					}
+ 				}
+			}
+		}
+		coor.node[number].x = newNodeX
+		coor.node[number].y = newNodeY
+		coor.node[number+1].x = conNodeX
+		coor.node[number+1].y = conNodeY
+		breakCustConnections(number+1);
+		addConnection(number,number+1);
+		addConnection(number+1,closeNode[one])
+		addConnection(number+1,closeNode[two])
+		if (number == 122){
+			document.getElementById("current").options[1].hidden = false;
+			document.getElementById("current").value = "122"
+			clear();
+			drawGo(122);
+		}
+		else{
+			document.getElementById("destination").options[1].hidden = false;
+			document.getElementById("destination").value = "124"
+			clear();
+			drawStop(124);
+		}
+		hideElems();
+	}
+	else{
+		newNodeX = null;
+		newNodeY = null;
+		ctxp.clearRect(0,0,3714,3714);
+		alert("Make sure you click in the map.")
+		getCursorPosition();
+	}
+
+}
+function clear(){
+	ctx.clearRect(0,0,3714,3714);
+}
+// function goElevator(){
+// 	elevToggle*= -1;
+//  dropdownfunc();
+// }
+function getCursorPosition(event) {
+	newNodeX = 0;
+	newNodeY = 0;
+	var rect = can.getBoundingClientRect();
+	newNodeX = (event.clientX - rect.left)* can.width /rect.width;
+	newNodeY = (event.clientY - rect.top)* can.height/rect.height;
+	g= 500;
+
+	if(newNodeY<1841){
+		custFloor = 1;
+		onOne = true;
+	}
+	else if(newNodeX<1283&&newNodeY>1915){
+		custFloor = 2;
+		onTwo = true;
+	}
+	else if(newNodeX>1356&&newNodeY>1915){
+		custFloor = 3;
+		onThree = true;
+		g = 1000
+	}
+	ctx.beginPath();
+		ctx.lineWidth = 8;
+		ctx.strokeStyle="#59f442";
+		ctx.arc(newNodeX,newNodeY,5,0,2*Math.PI);
+	ctx.stroke();
+	if (selector == 1){
+		customNode(122);
+		strt = 122
+	}
+	else{
+		customNode(124)
+		dest = 124
+	}
+
+	selector = 0;
+	removelistener();
+	// elevbutton.style.zIndex = "1"
+	// can.style.marginTop = 'px';
+	// dropdownfunc();
+}
+function removelistener(){
+	can.removeEventListener("click", getCursorPosition);
+}
+function breakCustConnections(number) {
+		for (var j = 0; j<126;j++){
+				e[j][number] = _;
+				e[number][j] = _;
+		}
+}
+function addconnections(){
+for (var i = 0; i < matrixSize-4; i++) {
+	for (var k = 0; k < matrixSize-4; k++) {
+		e[i][k] = _;
+	}
+}
+}
+
+function main(){
+
+}
+</script>
+</body>
+</html>

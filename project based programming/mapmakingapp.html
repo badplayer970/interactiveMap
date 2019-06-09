@@ -1,0 +1,72 @@
+<HTML>
+	<HEAD>
+		<style>
+			body{
+				margin: 0;
+				width: 100%;
+				height: 100%;
+			}
+			canvas{
+				position: fixed;
+				/* background: #fff no-repeat; */
+				/* width: 100%;
+				height: 100%; */
+				border: 1px solid red;
+				margin:0
+			}
+		</style>
+	</HEAD>
+
+	<BODY>
+		<input type="file" accept = '.jpg,.png' id="imageLoader" name="imageLoader"/>
+		<br>
+		<canvas id='canvas'></canvas>
+
+		<script>
+			var can = document.getElementById('canvas')
+			var ctx = can.getContext('2d')
+
+			var imageLoader = document.getElementById('imageLoader');
+    		imageLoader.addEventListener('change', handleImage, false);
+
+
+			function handleImage(e){
+			    var reader = new FileReader();
+			    reader.onload = function(event){
+			        var img = new Image();
+			        img.onload = function(){
+						  var ratio = img.width/img.height;
+						  var rect = can.getBoundingClientRect();
+						  var offset = [rect.left,rect.top]
+						  if (ratio < 1){
+							  canvas.width = (window.innerWidth-offset[0])*ratio;
+							  canvas.height = window.innerHeight-offset[1];
+						  }
+						  else{
+							  canvas.width = window.innerWidth-offset[0]
+							  canvas.height = (window.innerHeight-offset[1])/ratio;
+						  }
+			            ctx.drawImage(img,0,0,can.width,can.height);
+			        }
+			        img.src = event.target.result;
+			    }
+			    reader.readAsDataURL(e.target.files[0]);
+				 can.addEventListener('click',getCursorPosition)
+			}
+
+			function getCursorPosition(event) {
+				var rect = can.getBoundingClientRect();
+				newNodeX = (event.clientX - rect.left)* can.width /rect.width;
+				newNodeY = (event.clientY - rect.top)* can.height/rect.height;
+
+				ctx.beginPath();
+					ctx.lineWidth = 4;
+					ctx.strokeStyle="#59f442";
+					ctx.arc(newNodeX,newNodeY,5,0,2*Math.PI);
+				ctx.stroke();
+			}
+
+
+		</script>
+	</BODY>
+</HTML>

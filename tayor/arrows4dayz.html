@@ -1,0 +1,2260 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+
+	<!--	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="thumbnail.png" />
+	<title>Lexington Convention Center Interactive Map</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style type="text/css" media="screen">
+		clickTxt {
+			font-size: 45px;
+			color: white;
+			font-weight: normal;
+			display: none;
+			text-align: center;
+			font-family: verdana;
+		}
+
+		canvas {
+			display: none;
+			background: #fff url(map.png) no-repeat;
+			margin-top: 0px;
+		}
+
+		body {
+			margin: 0;
+			background: #083C5D;
+		}
+
+		header {
+			text-align: center;
+			padding-bottom: 0px;
+		}
+
+		dropdown {
+			position: relative;
+			backface-visibility: hidden;
+			bottom: 0px;
+			width: 100%;
+			padding: 0px;
+			text-align: center;
+			opacity: 1;
+		}
+
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #0033A0;
+			min-width: 10px;
+			box-shadow: 0px 16px 16px 0px rgba(0, 0, 0, 0.2);
+			/*padding: 0px 16px;*/
+			width: 180px;
+			size: 100px;
+		}
+
+		h1 {
+			font-family: verdana;
+			color: #FFFFFF;
+			margin-top: 0px;
+		}
+
+		p2 {
+			font-family: verdana;
+			font-size: 24px;
+			color: white;
+		}
+
+		nav {
+			backface-visibility: hidden;
+			bottom: 0px;
+			width: 100%;
+			padding: 5px 0px;
+			text-align: center;
+			opacity: 1;
+			background-color: #708090;
+		}
+
+		ul {
+			list-style: none;
+		}
+
+		li {
+			display: inline;
+			margin: 20px;
+		}
+
+		a {
+			color: white;
+			font-family: verdana;
+			font-weight: bold;
+			margin: 5px 85px;
+			font-size: 25px;
+		}
+
+		select {
+			overflow-y: scroll;
+			font-size: 45px;
+			font-weight: bold;
+			background-color: white;
+			color: black;
+			opacity: .9;
+			border-radius: 20px;
+			width: 450px;
+			height: 100px;
+		}
+
+		@media only screen and (max-width: 1080px) {
+			select {
+				font-size: 35px;
+				width: 49%;
+			}
+
+			a {
+				margin: 5px 20px;
+			}
+		}
+
+		img {
+			display: block;
+			margin: 0px auto;
+		}
+
+		.selection {
+			padding: 20px;
+			text-align: center;
+		}
+
+		@media only screen and (max-width: 6000px) {
+			#map {
+				width: 100%;
+				background-size: 100% 100%;
+			}
+
+			h1 {
+				font-size: 50px;
+			}
+
+			p2 {
+				font-size: 35px;
+				margin: 15px auto;
+			}
+
+			li {
+				display: block;
+			}
+
+			p3 {
+				font-size: 30px;
+				color: white;
+				font-weight: normal;
+				display: block;
+				/*text-align: center;*/
+				font-family: verdana;
+				padding: 15px 0px;
+				/*	background-color: white;*/
+				width: 100%;
+				display: inline-block;
+			}
+
+		}
+
+		elevator {
+			position: relative;
+			top: 50px;
+			z-index: -1
+		}
+
+		.switch {
+			position: relative;
+			display: inline-block;
+			width: 100px;
+			height: 60px;
+			top: -30px;
+
+		}
+
+		/* Hide default HTML checkbox */
+		.switch input {
+			opacity: 0;
+			width: 0;
+			height: 0;
+		}
+
+		/* The slider */
+		.slider {
+			position: absolute;
+			cursor: pointer;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: #ccc;
+			-webkit-transition: .4s;
+			transition: .4s;
+		}
+
+		.slider:before {
+			position: absolute;
+			content: "";
+			height: 45px;
+			width: 45px;
+			left: 6px;
+			bottom: 7px;
+			background-color: white;
+			-webkit-transition: .4s;
+			transition: .4s;
+		}
+
+		input:checked+.slider {
+			background-color: #2196F3;
+		}
+
+		input:focus+.slider {
+			box-shadow: 0 0 1px #2196F3;
+		}
+
+		input:checked+.slider:before {
+			-webkit-transform: translateX(40px);
+			-ms-transform: translateX(40px);
+			transform: translateX(px);
+		}
+
+		/* Rounded sliders */
+		.slider.round {
+			border-radius: 34px;
+		}
+
+		.slider.round:before {
+			border-radius: 50%;
+		}
+
+		*/ .parent {
+			position: relative;
+			top: 0;
+			left: 0;
+		}
+
+		.image1 {
+			position: relative;
+			top: 0;
+			left: 0;
+		}
+
+		.image2 {
+			position: absolute;
+			top: 30px;
+			left: 70px;
+		}
+
+		CustNodeTxt1 {
+			font-size: 30px;
+			color: white;
+			font-weight: normal;
+			display: block;
+			font-family: verdana;
+			width: 300px;
+			display: inline-block;
+		}
+
+		this {
+			font-size: 30px;
+			color: white;
+			font-weight: normal;
+			display: block;
+			text-align: center;
+			font-family: verdana;
+
+
+		}
+
+		CustNodeTxt2 {
+			font-size: 30px;
+			color: white;
+			font-weight: normal;
+			display: block;
+			font-family: verdana;
+			width: 100px;
+			display: inline-block;
+		}
+
+		or {
+			font-size: 65px;
+			color: white;
+			font-weight: normal;
+			display: block;
+			text-align: center;
+			font-family: verdana;
+			width: 100%;
+			display: inline-block;
+			background-color: #708090;
+			opacity: .8;
+			padding-top: 0px;
+			padding-bottom: 15px;
+			margin-bottom: 15px;
+			margin-top: 20px;
+
+		}
+
+		/* Select Your Current Loc*/
+		/* Draw Map*/
+		input[type="button"] {
+			width: 25;
+			height: 100px;
+			background-color: #ffffff;
+			font-size: 40px;
+			font-weight: bold;
+			border: 0px;
+			border-radius: 25px
+		}
+
+		.button {
+			width: 300px;
+			height: 100px;
+			background-color: #ffffff;
+			font-size: 40px;
+			font-weight: bold;
+			border: 0px;
+			border-radius: 25px
+		}
+
+		@media only screen and (max-width: 1080px) {
+			.button {
+				width: 40%;
+				height: 100px;
+				background-color: #ffffff;
+				font-size: 30px;
+				font-weight: bold;
+				border: 0px;
+				border-radius: 25px
+			}
+
+			select {
+				overflow-y: scroll;
+				font-size: 35px;
+				font-weight: bold;
+				background-color: white;
+				color: black;
+				opacity: .9;
+				border-radius: 20px;
+				min-width: 47.5vw max-width: 450px;
+				height: 100px;
+			}
+
+			h1 {
+				font-size: 7vw;
+			}
+
+			p2 {
+				font-family: verdana;
+				font-size: 5vw;
+				color: white;
+			}
+
+			or {
+				font-size: 7.5vw;
+				margin-bottom: 5%;
+				margin-top: 5%;
+				padding-bottom: 2%;
+			}
+
+			p3 {
+				font-size: 5vw;
+			}
+
+			this {
+				font-size: 5vw;
+			}
+		}
+
+		@media only screen and (max-width: 700px) {
+			clickTxt {
+				font-size: 30px;
+			}
+
+			.button {
+				width: 40%;
+				height: 15vw;
+				background-color: #ffffff;
+				font-size: 6.5vw;
+				font-weight: bold;
+				border: 0px;
+				border-radius: 25px
+			}
+
+			p2 {
+				font-size: 5vw;
+			}
+
+			.switch {
+				position: relative;
+				display: inline-block;
+				width: 15vw;
+				height: 8vw;
+				/*top: -30px;*/
+			}
+
+			.slider:before {
+				position: absolute;
+				content: "";
+				height: 6vw;
+				width: 6vw;
+				left: 1vw;
+				bottom: 1vw;
+				background-color: white;
+				-webkit-transition: .4s;
+				transition: .4s;
+			}
+
+			input:checked+.slider:before {
+				-webkit-transform: translateX(7vw);
+				-ms-transform: translateX(7vw);
+				transform: translateX(px);
+			}
+
+			a {
+				color: white;
+				font-family: verdana;
+				font-weight: bold;
+				margin: 2.5vw 5vw;
+				font-size: 5vw;
+			}
+
+			select {
+				overflow-y: scroll;
+				font-size: 5vw;
+				font-weight: bold;
+				background-color: white;
+				color: black;
+				opacity: .9;
+				border-radius: 20px;
+				width: 47.5vw;
+				height: 15vw;
+			}
+		}
+
+	</style>
+</head>
+
+<body>
+
+	<nav>
+		<a href="">Home</a>
+		<a href="about.html">About</a>
+		<a href="https://goo.gl/forms/nF6PKPHSmJbqG1W13">Contact</a>
+	</nav>
+	<div id="title1">
+		<header>
+			<h1 id="testingid">2019 STLP Interactive Map </h1>
+		</header>
+	</div>
+
+	<canvas id='map' width='3714' height='3714'></canvas>
+
+	<clickTxt id="nothing"> Tap Your Start Location on the Map </clickTxt>
+	<clickTxt id="nothing1"> Tap Your End Location on the Map </clickTxt>
+
+	<div id="everything">
+		<header>
+			<dropdown>
+
+				<p3> Select Location From List</p3> <br>
+				<select name="current" id="current" onchange="dropdownfunc()">
+					<option value="#">Start Location</option>
+					<option disabled value="185">Custom Start</option>
+					<option disabled>-----Level 1-----</option>
+					<option value="174"> Awesome Inc.</option>
+					<option value="88">Bench Challenge</option>
+					<option value="173"> Bench Challenge Team</option>
+					<option value="11">Berea Room</option>
+					<option value="96"> Breakout EDU </option>
+					<option value="45">Bus Site A</option>
+
+					<option value="25">Elkhorn A</option>
+					<option value="26">Elkhorn B</option>
+					<option value="27">Elkhorn C</option>
+					<option value="28">Elkhorn D</option>
+					<option value="94"> Extreme Networks Challenge</option>
+					<option value="92"> FCPS STEM Bus</option>
+					<option value="3">Food Court</option>
+					<option value="175"> Georgetown College Robotics</option>
+					<option value="172"> Help Desk Support Challenge</option>
+					<option value="31">Heritage Ballroom 1</option>
+					<option value="32">Heritage Ballroom 2</option>
+					<option value="33">Heritage Ballroom 3</option>
+					<option value="69">KY Travel</option>
+					<option value="85">Lafayette Digital Lab</option>
+					<option value="77"> Live Production Team</option>
+					<option value="176"> Main Stage</option>
+					<option value="81">Newton's Attic</option>
+					<option value="79">Proven Learning Quick Tech Recall</option>
+					<option value="89"> RCX Competition Area</option>
+					<option value="70">RCX Pit Area </option>
+					<option value="83">Racing to the Future</option>
+					<option value="72">STLP HQ</option>
+					<option value="87">Shattered Glass</option>
+					<option value="68">UL Podcast</option>
+					<option value="75">Wall of Winners</option>
+					<option value="103"> Welcome/Info Desk</option>
+
+					<option disabled>-----Level 3-----</option>
+					<option value="159">Bluegrass Ballroom</option>
+					<option value="184"> Concession Stand</option>
+					<option value="183"> NKU APP Challenege</option>
+					<option value="165">Thoroughbred Room 1-3</option>
+					<option value="165">Thoroughbred Room 4</option>
+					<option value="166">Thoroughbred Room 5</option>
+					<option value="167">Thoroughbred Room 6</option>
+					<option value="168">Thoroughbred Room 7</option>
+					<option value="169">Thoroughbred Room 8</option>
+
+				</select>
+
+				<select name="destination" id="destination" onchange="dropdownfunc()">
+					<option value="#">Destination</option>
+					<option disabled value="187">Custom Destination</option>
+					<option value="bathroom">Closest Bathroom</option>
+					<option disabled>-----Level 1-----</option>
+					<option value="174"> Awesome Inc.</option>
+					<option value="88">Bench Challenge</option>
+					<option value="173"> Bench Challenge Team</option>
+					<option value="11">Berea Room</option>
+					<option value="96"> Breakout EDU </option>
+					<option value="45">Bus Site A</option>
+
+					<option value="25">Elkhorn A</option>
+					<option value="26">Elkhorn B</option>
+					<option value="27">Elkhorn C</option>
+					<option value="28">Elkhorn D</option>
+					<option value="94"> Extreme Networks Challenge</option>
+					<option value="92"> FCPS STEM Bus</option>
+					<option value="3">Food Court</option>
+					<option value="175"> Georgetown College Robotics</option>
+					<option value="172"> Help Desk Support Challenge</option>
+					<option value="31">Heritage Ballroom 1</option>
+					<option value="32">Heritage Ballroom 2</option>
+					<option value="33">Heritage Ballroom 3</option>
+					<option value="69">KY Travel</option>
+					<option value="85">Lafayette Digital Lab</option>
+					<option value="77"> Live Production Team</option>
+					<option value="176"> Main Stage</option>
+					<option value="81">Newton's Attic</option>
+					<option value="79">Proven Learning Quick Tech Recall</option>
+					<option value="89"> RCX Competition Area</option>
+					<option value="70">RCX Pit Area </option>
+					<option value="83">Racing to the Future</option>
+					<option value="72">STLP HQ</option>
+					<option value="87">Shattered Glass</option>
+					<option value="68">UL Podcast</option>
+					<option value="75">Wall of Winners</option>
+					<option value="103"> Welcome/Info Desk</option>
+					<option disabled>-----Level 3-----</option>
+					<option value="159">Bluegrass Ballroom</option>
+					<option value="184"> Concession Stand</option>
+					<option value="183"> NKU APP Challenege</option>
+					<option value="165">Thoroughbred Room 1-3</option>
+					<option value="165">Thoroughbred Room 4</option>
+					<option value="166">Thoroughbred Room 5</option>
+					<option value="167">Thoroughbred Room 6</option>
+					<option value="168">Thoroughbred Room 7</option>
+					<option value="169">Thoroughbred Room 8</option>
+
+				</select>
+
+			</dropdown>
+
+			<or> or </or>
+			<br>
+
+			<this> Tap Location On Map </this>
+			<br>
+
+			<div id="buttons">
+				<button class="button" value="Current Location" onclick="selectpoint(1)">From?</button>
+				<button class="button" value="Destination" onclick="selectpoint(2)">To?</button>
+
+			</div>
+
+
+		</header>
+		<or> options </or>
+		<elevator>
+			<center>
+				<label class="switch" id="myButton" value="-1" onchange="goElevator()">
+					<input type="checkbox">
+					<span class="slider round"></span>
+				</label>
+			</center>
+		</elevator>
+		<br>
+		<center>
+			<p2> Use Elevator? </p2>
+		</center>
+
+	</div>
+
+
+
+	<script type="text/javascript">
+		var images = new Array()
+			function preload() {
+				for (i = 0; i < preload.arguments.length; i++) {
+					images[i] = new Image()
+					images[i].src = preload.arguments[i]
+				}
+			}
+			preload("map.png")
+
+		var can = document.getElementById("map");
+		var ctx = can.getContext("2d");
+		var clip = document.getElementById("map");
+		var ctxp = clip.getContext("2d");
+		var e = [];
+
+		function segdist(x, y, x1, y1, x2, y2, points) {
+			var A = x - x1;
+			var B = y - y1;
+			var C = x2 - x1;
+			var D = y2 - y1;
+			var dot = A * C + B * D;
+			var len_sq = C * C + D * D;
+			var param = -1;
+			if (len_sq != 0) //in case of 0 length line
+				param = dot / len_sq;
+			var xx, yy;
+			if (param < 0) {
+				xx = x1;
+				yy = y1;
+			} else if (param > 1) {
+				xx = x2;
+				yy = y2;
+			} else {
+				xx = x1 + param * C;
+				yy = y1 + param * D;
+			}
+			var dx = x - xx;
+			var dy = y - yy;
+			if (points) {
+				return [xx, yy];
+			}
+			return dx * dx + dy * dy;
+		}
+
+		function dropdownfunc() {
+			if (document.getElementById("current").value != "#" && document.getElementById("destination").value != "#") {
+				can.style.display = "block";
+				main();
+			}
+		}
+
+		var offset;
+		var selector = 0;
+		var elevbutton = document.getElementById("myButton");
+
+		function selectpoint(number) {
+			addconnections();
+			elevbutton.style.zIndex = "-1"
+			can.style.display = "block";
+			window.scrollTo(0, 0);
+			offset = can.getBoundingClientRect().top;
+			can.style.marginTop = "0px";
+			selector = number;
+			clear();
+			can.addEventListener("click", getCursorPosition)
+			hideElems();
+
+		}
+
+		function hideElems() {
+			var x = document.getElementById("everything");
+			var y = document.getElementById("nothing");
+			var z = document.getElementById("nothing1");
+			if (x.style.display === "none") {
+				x.style.display = "block";
+				y.style.display = "none";
+				z.style.display = "none";
+			} else {
+				x.style.display = "none";
+				if (selector == 1) {
+					y.style.display = "block";
+				} else {
+					z.style.display = "block";
+				}
+			}
+			x = document.getElementById("title1");
+			if (x.style.display === "none") {
+				x.style.display = "block";
+				y.style.display = "none";
+				z.style.display = "none";
+			} else {
+				x.style.display = "none";
+				if (selector == 1) {
+					y.style.display = "block";
+				} else {
+					z.style.display = "block";
+				}
+			}
+		}
+
+		function showMap() {
+			can.style.display = "block";
+			main();
+		}
+
+		var elevToggle = -1;
+		var goStairs = false;
+		var newNodeX = 0;
+		var newNodeY = 0;
+		var conNodeX = 0;
+		var conNodeY = 0;
+		var onOne = false;
+		var onTwo = false;
+		var onThree = false;
+		var g = 500;
+		var custFloor = 0;
+		var custFloors = [0, 0];
+		var coor = {
+			"node": [
+
+
+
+
+
+
+
+
+				{
+					"x": null,
+					"y": null
+				},
+				{
+					"x": 738,
+					"y": 540
+				},
+				{
+					"x": 928,
+					"y": 544
+				},
+				{
+					"x": 926,
+					"y": 680
+				},
+				{
+					"x": 997,
+					"y": 811
+				},
+				{
+					"x": 1079,
+					"y": 811
+				},
+				{
+					"x": 1079,
+					"y": 1051
+				},
+				{
+					"x": 1150,
+					"y": 1125
+				},
+				{
+					"x": 892,
+					"y": 994
+				},
+				{
+					"x": 715,
+					"y": 893
+				},
+				{
+					"x": 750,
+					"y": 827
+				},
+				{
+					"x": 697,
+					"y": 820
+				},
+				{
+					"x": 1287,
+					"y": 1241
+				},
+				{
+					"x": 1287,
+					"y": 1412
+				},
+				{
+					"x": 1351,
+					"y": 1412
+				},
+				{
+					"x": 1436,
+					"y": 1412
+				},
+				{
+					"x": 1495,
+					"y": 1412
+				},
+				{
+					"x": 1550,
+					"y": 1412
+				},
+				{
+					"x": 1550,
+					"y": 1352
+				},
+				{
+					"x": 1287,
+					"y": 1517
+				},
+				{
+					"x": 1287,
+					"y": 1582
+				},
+				{
+					"x": 1287,
+					"y": 1685
+				},
+				{
+					"x": 1353,
+					"y": 1717
+				},
+				{
+					"x": 1505,
+					"y": 1717
+				},
+				{
+					"x": 1546,
+					"y": 1717
+				},
+				{
+					"x": 1364,
+					"y": 1520
+				},
+				{
+					"x": 1494,
+					"y": 1523
+				},
+				{
+					"x": 1500,
+					"y": 1637
+				},
+				{
+					"x": 1346,
+					"y": 1575
+				},
+				{
+					"x": 1548,
+					"y": 1524
+				},
+				{
+					"x": 1548,
+					"y": 1637
+				},
+				{
+					"x": 1640,
+					"y": 1352
+				},
+				{
+					"x": 1640,
+					"y": 1525
+				},
+				{
+					"x": 1640,
+					"y": 1637
+				},
+				{
+					"x": 1781,
+					"y": 1717
+				},
+				{
+					"x": 2012,
+					"y": 1717
+				},
+				{
+					"x": 2124,
+					"y": 1717
+				},
+				{
+					"x": 2366,
+					"y": 1717
+				},
+				{
+					"x": 2366,
+					"y": 1608
+				},
+				{
+					"x": 2124,
+					"y": 1608
+				},
+				{
+					"x": 2012,
+					"y": 1608
+				},
+				{
+					"x": 1781,
+					"y": 1608
+				},
+				{
+					"x": 1781,
+					"y": 1405
+				},
+				{
+					"x": 1881,
+					"y": 1287
+				},
+				{
+					"x": 2250,
+					"y": 1287
+				},
+				{
+					"x": 2407,
+					"y": 1347
+				},
+				{
+					"x": 1881,
+					"y": 1101
+				},
+				{
+					"x": 1804,
+					"y": 1046
+				},
+				{
+					"x": 1908,
+					"y": 958
+				},
+				{
+					"x": 1731,
+					"y": 791
+				},
+				{
+					"x": 1558,
+					"y": 609
+				},
+				{
+					"x": 1377,
+					"y": 407
+				},
+				{
+					"x": 1551,
+					"y": 232
+				},
+				{
+					"x": 1750,
+					"y": 422
+				},
+				{
+					"x": 1920,
+					"y": 595
+				},
+				{
+					"x": 1859,
+					"y": 658
+				},
+				{
+					"x": 2031,
+					"y": 829
+				},
+				{
+					"x": 2146,
+					"y": 714
+				},
+				{
+					"x": 2300,
+					"y": 714
+				},
+				{
+					"x": 2300,
+					"y": 557
+				},
+				{
+					"x": 2106,
+					"y": 557
+				},
+				{
+					"x": 2007,
+					"y": 457
+				},
+				{
+					"x": 1954,
+					"y": 2041
+				},
+				{
+					"x": 1752,
+					"y": 36
+				},
+				{
+					"x": 1832,
+					"y": 20
+				},
+				{
+					"x": 2300,
+					"y": 20
+				},
+				{
+					"x": 2300,
+					"y": 185
+				},
+				{
+					"x": 2300,
+					"y": 333
+				},
+				{
+					"x": 2400,
+					"y": 333
+				},
+				{
+					"x": 2400,
+					"y": 185
+				},
+				{
+					"x": 2400,
+					"y": 479
+				},
+				{
+					"x": 2300,
+					"y": 479
+				},
+				{
+					"x": 2400,
+					"y": 645
+				},
+				{
+					"x": 2300,
+					"y": 645
+				},
+				{
+					"x": 1764,
+					"y": 840
+				},
+				{
+					"x": 1704,
+					"y": 891
+				},
+				{
+					"x": 1639,
+					"y": 708
+				},
+				{
+					"x": 1590,
+					"y": 770
+				},
+				{
+					"x": 1515,
+					"y": 578
+				},
+				{
+					"x": 1439,
+					"y": 624
+				},
+				{
+					"x": 1408,
+					"y": 466
+				},
+				{
+					"x": 1340,
+					"y": 520
+				},
+				{
+					"x": 1481,
+					"y": 304
+				},
+				{
+					"x": 1421,
+					"y": 234
+				},
+				{
+					"x": 1611,
+					"y": 303
+				},
+				{
+					"x": 1518,
+					"y": 378
+				},
+				{
+					"x": 1695,
+					"y": 388
+				},
+				{
+					"x": 1609,
+					"y": 464
+				},
+				{
+					"x": 1757,
+					"y": 325
+				},
+				{
+					"x": 2017,
+					"y": 677
+				},
+				{
+					"x": 1941,
+					"y": 747
+				},
+				{
+					"x": 1982,
+					"y": 887
+				},
+				{
+					"x": 2035,
+					"y": 944
+				},
+				{
+					"x": 2113,
+					"y": 752
+				},
+				{
+					"x": 2156,
+					"y": 804
+				},
+				{
+					"x": 2213,
+					"y": 555
+				},
+				{
+					"x": 2211,
+					"y": 478
+				},
+				{
+					"x": 1465,
+					"y": 1383
+				},
+				{
+					"x": 1903,
+					"y": 1683
+				},
+				{
+					"x": 2236,
+					"y": 1683
+				},
+				{
+					"x": 753,
+					"y": 517
+				},
+				{
+					"x": 747,
+					"y": 606
+				},
+				{
+					"x": 1038,
+					"y": 1270
+				},
+				{
+					"x": 1170,
+					"y": 1338
+				},
+				{
+					"x": 1080,
+					"y": 1192
+				},
+				{
+					"x": 740,
+					"y": 2526
+				},
+				{
+					"x": 832,
+					"y": 2566
+				},
+				{
+					"x": 646,
+					"y": 2566
+				},
+				{
+					"x": 646,
+					"y": 2964
+				},
+				{
+					"x": 740,
+					"y": 2964
+				},
+				{
+					"x": 832,
+					"y": 2964
+				},
+				{
+					"x": 740,
+					"y": 3054
+				},
+				{
+					"x": 832,
+					"y": 3054
+				},
+				{
+					"x": 646,
+					"y": 3054
+				},
+				{
+					"x": 646,
+					"y": 3156
+				},
+				{
+					"x": 832,
+					"y": 3156
+				},
+				{
+					"x": 788,
+					"y": 3220
+				},
+				{
+					"x": 3336,
+					"y": 2924
+				},
+				{
+					"x": 3022,
+					"y": 2972
+				},
+				{
+					"x": 2874,
+					"y": 3094
+				},
+				{
+					"x": 2874,
+					"y": 2930
+				},
+				{
+					"x": 2874,
+					"y": 2770
+				},
+				{
+					"x": 2874,
+					"y": 2600
+				},
+				{
+					"x": 2790,
+					"y": 2600
+				},
+				{
+					"x": 2790,
+					"y": 2770
+				},
+				{
+					"x": 2790,
+					"y": 2930
+				},
+				{
+					"x": 2790,
+					"y": 3094
+				},
+				{
+					"x": 2722,
+					"y": 3114
+				},
+				{
+					"x": 2662,
+					"y": 3114
+				},
+				{
+					"x": 2520,
+					"y": 3114
+				},
+				{
+					"x": 2520,
+					"y": 2958
+				},
+				{
+					"x": 2520,
+					"y": 2870
+				},
+				{
+					"x": 2520,
+					"y": 2786
+				},
+				{
+					"x": 2520,
+					"y": 2696
+				},
+				{
+					"x": 2662,
+					"y": 2854
+				},
+				{
+					"x": 2662,
+					"y": 2686
+				},
+				{
+					"x": 2662,
+					"y": 2526
+				},
+				{
+					"x": 2724,
+					"y": 2976
+				},
+				{
+					"x": 2724,
+					"y": 2852
+				},
+				{
+					"x": 2724,
+					"y": 2686
+				},
+				{
+					"x": 2724,
+					"y": 2286
+				},
+				{
+					"x": 2794,
+					"y": 2286
+				},
+				{
+					"x": 2420,
+					"y": 2286
+				},
+				{
+					"x": 2332,
+					"y": 2286
+				},
+				{
+					"x": 2332,
+					"y": 2628
+				},
+				{
+					"x": 2398,
+					"y": 2628
+				},
+				{
+					"x": 2484,
+					"y": 2628
+				},
+				{
+					"x": 2484,
+					"y": 2696
+				},
+				{
+					"x": 2398,
+					"y": 2696
+				},
+				{
+					"x": 2332,
+					"y": 2696
+				},
+				{
+					"x": 2332,
+					"y": 2834
+				},
+				{
+					"x": 2332,
+					"y": 2958
+				},
+				{
+					"x": 2270,
+					"y": 2958
+				},
+				{
+					"x": 2166,
+					"y": 2958
+				},
+				{
+					"x": 2334,
+					"y": 3114
+				},
+				{
+					"x": 2398,
+					"y": 3170
+				},
+				{
+					"x": 2568,
+					"y": 3330
+				},
+				{
+					"x": 2716,
+					"y": 3392
+				},
+				{
+					"x": 2716,
+					"y": 3520
+				},
+				{
+					"x": 2992,
+					"y": 3520
+				},
+				{
+					"x": 2800,
+					"y": 3214
+				},
+				{
+					"x": 2778,
+					"y": 3160
+				},
+				{
+					"x": 2778,
+					"y": 3248
+				},
+				{
+					"x": 2532,
+					"y": 3028
+				},
+				{
+					"x": 2274,
+					"y": 2836
+				},
+				{
+					"x": 2594,
+					"y": 2620
+				},
+				{
+					"x": 2594,
+					"y": 2696
+				},
+				{
+					"x": 2594,
+					"y": 2786
+				},
+				{
+					"x": 2594,
+					"y": 2870
+				},
+				{
+					"x": 2594,
+					"y": 2958
+				},
+				{
+					"x": 2500,
+					"y": 3174
+				},
+				{
+					"x": 2437,
+					"y": 3100
+				},
+				{
+					"x": 1792,
+					"y": 182
+				},
+				{
+					"x": 1934,
+					"y": 106
+				},
+				{
+					"x": 1860,
+					"y": 786
+				},
+				{
+					"x": 1940,
+					"y": 854
+				},
+				{
+					"x": 1740,
+					"y": 610
+				},
+				{
+					"x": 2172,
+					"y": 2628
+				},
+				{
+					"x": 2172,
+					"y": 2505
+				},
+				{
+					"x": 2172,
+					"y": 2426
+				},
+				{
+					"x": 2332,
+					"y": 2426
+				},
+				{
+					"x": 2300,
+					"y": 2540
+				},
+				{
+					"x": 2752,
+					"y": 3254
+				},
+				{
+					"x": 2630,
+					"y": 3456
+				},
+				{
+					"x": 3148,
+					"y": 3054
+				},
+				{
+					"x": null,
+					"y": null
+				},
+				{
+					"x": null,
+					"y": null
+				},
+				{
+					"x": null,
+					"y": null
+				},
+				{
+					"x": null,
+					"y": null
+				}
+			]
+		}
+		var matrixSize = coor.node.length;
+		var e = [];
+		var _ = Infinity;
+		for (var i = 0; i < matrixSize; i++) {
+			e[i] = [];
+			for (var k = 0; k < matrixSize; k++) {
+				e[i][k] = _;
+			}
+		}
+
+		function addconnection(a, b) {
+			var c = Math.hypot(coor.node[a].x - coor.node[b].x, coor.node[a].y - coor.node[b].y)
+			e[a][b] = c;
+			e[b][a] = c;
+		}
+
+		function addstairs(a, b) {
+			e[a][b] = 1000;
+			e[b][a] = 1000;
+		}
+
+		function drawStop(dest) {
+			ctx.beginPath();
+			ctx.lineWidth = 55;
+			ctx.strokeStyle = "#ff0000";
+			ctx.arc(coor.node[dest].x, coor.node[dest].y - 73, 10, 0, 2 * Math.PI);
+			ctx.stroke();
+			ctx.beginPath(); // draw the path
+			ctx.moveTo(coor.node[dest].x, coor.node[dest].y); // set the start point
+			ctx.lineTo(coor.node[dest].x - (50 / 2), coor.node[dest].y - 50); // set the end point
+			ctx.lineWidth = 16;
+			ctx.strokeStyle = "#ff0000";
+			// ctx.stroke();
+			// ctx.beginPath();// draw the path
+			// ctx.beginPath();// draw the path
+			ctx.lineTo(coor.node[dest].x + (50 / 2), coor.node[dest].y - 50); // set the end point
+			ctx.closePath();
+			ctx.lineWidth = 10;
+			ctx.strokeStyle = "#ff0000";
+			ctx.stroke();
+			ctx.fillStyle = "#ff0000";
+			ctx.fill();
+			ctx.beginPath();
+			ctx.lineWidth = 10;
+			ctx.strokeStyle = "#ff0000";
+			ctx.arc(coor.node[dest].x, coor.node[dest].y, 5, 0, 2 * Math.PI);
+			ctx.stroke();
+		}
+
+		function drawGo(strt) {
+			ctx.beginPath();
+			ctx.lineWidth = 10;
+			ctx.strokeStyle = "#59f442";
+			ctx.arc(coor.node[strt].x, coor.node[strt].y, 5, 0, 2 * Math.PI);
+			ctx.stroke();
+			ctx.beginPath();
+			ctx.lineWidth = 10;
+			ctx.strokeStyle = "#59f442";
+			ctx.arc(coor.node[strt].x, coor.node[strt].y, 25, 0, 2 * Math.PI);
+			ctx.stroke();
+			ctx.beginPath();
+			ctx.lineWidth = 10;
+			ctx.strokeStyle = "#59f442";
+			ctx.arc(coor.node[strt].x, coor.node[strt].y, 50, 0, 2 * Math.PI);
+			ctx.stroke();
+		}
+
+		function customNode(number) {
+			var closeNode = []; //
+			var nodeLoc = [];
+			var closestPair = [
+				[1, 1],
+				[2, 2]
+			];
+			var minDist = 1000001;
+			var d;
+			var run = false;
+			var one;
+			var two;
+			if (number == 185)
+				custFloors[0] = custFloor;
+			else
+				custFloors[1] = custFloor;
+			for (var i = 0; i < e.length; i++) {
+				if (Math.hypot(coor.node[i].x - newNodeX, coor.node[i].y - newNodeY) < g) {
+					run = true;
+					closeNode.push(i);
+					nodeLoc.push([coor.node[i].x, coor.node[i].y]);
+				}
+			}
+			if (run) {
+				for (var i = 0; i < closeNode.length - 1; i++) {
+					for (var j = 1; j < closeNode.length; j++) {
+						if (e[closeNode[i]][closeNode[j]] != Infinity && e[closeNode[i]][closeNode[j]] != 1000) {
+							if (!((newNodeY < 1915 && nodeLoc[i][1] > 1915) || (newNodeY > 1841 && nodeLoc[i][1] < 1841) || ((newNodeY > 1841) && ((newNodeX < 1356 && nodeLoc[i][0] > 1283) || (newNodeX > 1283 && nodeLoc[i][0] < 1283))))) {
+								var d = segdist(newNodeX, newNodeY, nodeLoc[i][0], nodeLoc[i][1], nodeLoc[j][0], nodeLoc[j][1], false)
+								if (d < minDist) {
+									minDist = d;
+									one = i;
+									two = j;
+									var boi = segdist(newNodeX, newNodeY, nodeLoc[i][0], nodeLoc[i][1], nodeLoc[j][0], nodeLoc[j][1], true)
+									conNodeX = boi[0];
+									conNodeY = boi[1];
+								}
+							}
+						}
+					}
+				}
+				coor.node[number].x = newNodeX
+				coor.node[number].y = newNodeY
+				coor.node[number + 1].x = conNodeX
+				coor.node[number + 1].y = conNodeY
+				breakCustConnections(number + 1);
+				addconnection(number, number + 1);
+				addconnection(number + 1, closeNode[one])
+				addconnection(number + 1, closeNode[two])
+				if (number == 185) {
+					document.getElementById("current").options[1].hidden = false;
+					document.getElementById("current").value = "185"
+					clear();
+					drawGo(185);
+				} else {
+					document.getElementById("destination").options[1].hidden = false;
+					document.getElementById("destination").value = "187"
+					clear();
+					drawStop(187);
+				}
+				hideElems();
+			} else {
+				ctxp.clearRect(0, 0, 3714, 3714);
+				alert("Select a valid map location.")
+				getCursorPosition();
+			}
+
+		}
+
+		function clear() {
+			ctx.clearRect(0, 0, 3714, 3714);
+		}
+
+		function goElevator() {
+			elevToggle *= -1;
+			dropdownfunc();
+		}
+
+		function drawArrow(fromx, fromy, ctx, direction) {
+			//variables to be used when creating the arrow
+			var tox = fromx;
+			var toy = fromy + direction * 75
+			//starting path of the arrow from the start square to the end square and drawing the stroke
+			ctx.beginPath();
+			ctx.moveTo(fromx, fromy);
+			ctx.lineTo(tox, toy);
+			ctx.strokeStyle = "#ffff00";
+			ctx.lineWidth = 15;
+			ctx.stroke();
+			toy += direction * 10
+			//starting a new path from the head of the arrow to one of the sides of the point
+			ctx.beginPath();
+			ctx.moveTo(tox, toy);
+			ctx.lineTo(tox - 20, toy - direction * 20);
+			//path from the side point of the arrow, to the other side point
+			ctx.lineTo(tox + 20, toy - direction * 20);
+			//path from the side point back to the tip of the arrow, and then again to the opposite side point
+			ctx.lineTo(tox, toy);
+			//draws the paths created above
+			ctx.strokeStyle = "#ffff00";
+			ctx.lineWidth = 15;
+			ctx.stroke();
+			ctx.fillStyle = "#ffff00";
+			ctx.fill();
+			ctx.beginPath();
+			ctx.moveTo(tox, toy);
+			ctx.lineWidth = 15;
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.lineWidth = 7.5;
+			ctx.strokeStyle = "#ffff00";
+			ctx.arc(tox, toy, 3.75, 0, 2 * Math.PI);
+			ctx.stroke();
+		}
+
+		function grayOut(n, ctxp){
+console.log("gray")
+	ctxp.globalAlpha = .8;
+	ctxp.clearRect(0,0,3714,3714);
+
+	if(n==3){
+		ctxp.beginPath();
+		ctxp.fillStyle= "#999999";
+		ctxp.fillRect(0,0,3714,1965);//1
+		ctxp.fillRect(0,2034,1419,3714);//2
+	}
+	else if(n==2){
+		ctxp.beginPath();
+		ctxp.fillStyle= "#999999";
+		ctxp.fillRect(1491,2034,3714,3714);//3
+		ctxp.fillRect(0,0,3714,1965);//1
+	}
+	else if(n==1){
+		ctxp.beginPath();
+		ctxp.fillStyle= "#999999";
+		ctxp.fillRect(0,2034,1419,3714);//2
+		ctxp.fillRect(1491,2034,3714,3714);//3
+	}
+	else if(n==21){
+		ctxp.beginPath();
+		ctxp.fillStyle= "#999999";
+		ctxp.fillRect(0,0,3714,1965);//1
+	}
+	else if(n==23){
+		ctxp.beginPath();
+		ctxp.fillStyle= "#999999";
+		ctxp.fillRect(1491,2034,3714,3714);//3
+	}
+}
+
+
+
+		function getCursorPosition(event) {
+			newNodeX = 0;
+			newNodeY = 0;
+			var rect = can.getBoundingClientRect();
+			newNodeX = (event.clientX - rect.left) * can.width / rect.width;
+			newNodeY = (event.clientY - rect.top) * can.height / rect.height;
+			g = 500;
+			if (newNodeY < 1841) {
+				custFloor = 1;
+				onOne = true;
+			} else if (newNodeX < 1283 && newNodeY > 1915) {
+				custFloor = 2;
+				onTwo = true;
+			} else if (newNodeX > 1356 && newNodeY > 1915) {
+				custFloor = 3;
+				onThree = true;
+				g = 1000
+			}
+			ctx.beginPath();
+			ctx.lineWidth = 8;
+			ctx.strokeStyle = "#59f442";
+			ctx.arc(newNodeX, newNodeY, 5, 0, 2 * Math.PI);
+			ctx.stroke();
+
+
+			if (selector == 1) {
+				customNode(185);
+				strt = 185
+			} else {
+				customNode(187)
+				dest = 187
+			}
+
+			selector = 0;
+			removelistener();
+			elevbutton.style.zIndex = "1"
+			can.style.marginTop = 'px';
+			dropdownfunc();
+		}
+
+		function removelistener() {
+			can.removeEventListener("click", getCursorPosition);
+		}
+
+		function breakCustConnections(number) {
+			for (var j = 0; j < 126; j++) {
+				e[j][number] = _;
+				e[number][j] = _;
+			}
+		}
+
+		function addconnections() {
+			for (var i = 0; i < matrixSize - 4; i++) {
+				for (var k = 0; k < matrixSize - 4; k++) {
+					e[i][k] = _;
+				}
+			}
+			//first floor
+			addconnection(1, 100)
+			addconnection(46, 48)
+			addconnection(1, 2)
+			addconnection(1, 101)
+			addconnection(2, 3)
+			addconnection(3, 4)
+			addconnection(4, 10)
+			addconnection(10, 11)
+			addconnection(11, 9)
+			addconnection(9, 8)
+			addconnection(4, 5)
+			addconnection(5, 6)
+			addconnection(6, 7)
+			addconnection(7, 12)
+			addconnection(6, 8)
+			addconnection(12, 103)
+			addconnection(12, 13)
+			addconnection(13, 14)
+			addconnection(13, 19)
+			addconnection(19, 20)
+			addconnection(20, 21)
+			addconnection(19, 25)
+			addconnection(20, 28)
+			addconnection(21, 22)
+			addconnection(22, 28)
+			addconnection(22, 23)
+			addconnection(23, 27)
+			addconnection(23, 24)
+			addconnection(24, 30)
+			addconnection(30, 29)
+			addconnection(29, 17)
+			addconnection(17, 18)
+			addconnection(18, 31)
+			addconnection(16, 17)
+			addconnection(15, 16)
+			addconnection(15, 97)
+			addconnection(15, 14)
+			addconnection(29, 32)
+			addconnection(30, 33)
+			addconnection(24, 34)
+			addconnection(34, 35)
+			addconnection(35, 36)
+			addconnection(36, 37)
+			addconnection(34, 41)
+			addconnection(41, 42)
+			addconnection(41, 40)
+			addconnection(35, 40)
+			addconnection(36, 39)
+			addconnection(37, 38)
+			addconnection(39, 38)
+			addconnection(39, 44)
+			addconnection(38, 44)
+			addconnection(42, 43)
+			addconnection(40, 43)
+			addconnection(43, 46)
+			addconnection(46, 47)
+			addconnection(47, 48)
+			addconnection(48, 74)
+			addconnection(74, 49)
+			addconnection(49, 76)
+			addconnection(76, 50)
+			addconnection(50, 78)
+			addconnection(78, 80)
+			addconnection(80, 51)
+			addconnection(51, 52)
+			addconnection(52, 84)
+			addconnection(84, 86)
+			addconnection(86, 53)
+			addconnection(53, 50)
+			addconnection(53, 54)
+			addconnection(54, 55)
+			addconnection(55, 49)
+			addconnection(55, 90)
+			addconnection(90, 56)
+			addconnection(56, 91)
+			addconnection(91, 48)
+			addconnection(91, 92)
+			addconnection(74, 75)
+			addconnection(76, 77)
+			addconnection(78, 79)
+			addconnection(80, 81)
+			addconnection(52, 83)
+			addconnection(86, 88)
+			addconnection(54, 89)
+			addconnection(90, 89)
+			addconnection(56, 93)
+			addconnection(93, 94)
+			addconnection(93, 57)
+			addconnection(57, 58)
+			addconnection(58, 73)
+			addconnection(73, 72)
+			addconnection(73, 59)
+			addconnection(59, 95)
+			addconnection(95, 60)
+			addconnection(95, 96)
+			addconnection(60, 61)
+			addconnection(59, 71)
+			addconnection(71, 70)
+			addconnection(71, 67)
+			addconnection(67, 68)
+			addconnection(67, 66)
+			addconnection(66, 69)
+			addconnection(66, 65)
+			addconnection(65, 64)
+			addconnection(64, 63)
+			addconnection(63, 62)
+			addconnection(62, 61)
+			addconnection(63, 52)
+			addconnection(88, 86)
+			addconnection(63, 64)
+			addconnection(64, 173)
+			addconnection(64, 65)
+			addconnection(173, 62)
+			addconnection(172, 63)
+			addconnection(172, 62)
+			addconnection(174, 90)
+			addconnection(174, 74)
+			addconnection(175, 91)
+			addconnection(103, 13)
+			addconnection(38, 45)
+			addconnection(44, 45)
+			addconnection(85, 80)
+			addconnection(87, 86)
+			addconnection(87, 78)
+			addconnection(10, 8)
+			addconnection(25,14)
+			addconnection(26,16)
+			addconnection(26,29)
+			addconnection(147,140)
+			//floor 1 if elevator
+			if (elevToggle < 0) {
+				addconnection(7, 104)
+				addconnection(104, 102)
+			}
+			//second floor
+			addconnection(105, 107)
+			addconnection(105, 106)
+			addconnection(107, 108)
+			addconnection(108, 109)
+			addconnection(109, 110)
+			addconnection(110, 106)
+			addconnection(108, 113)
+			addconnection(113, 111)
+			addconnection(111, 122)
+			addconnection(112, 110)
+			addconnection(108, 112)
+			addconnection(109, 111)
+			addconnection(113, 110)
+			addconnection(113, 114)
+			addconnection(112, 115)
+			addconnection(115, 116)
+			addconnection(114, 116)
+			//third floor
+			addconnection(117, 118)
+			addconnection(118, 119)
+			addconnection(118, 120)
+			addconnection(121, 118)
+			addconnection(120, 121)
+			addconnection(122, 123)
+			addconnection(121, 124)
+			addconnection(120, 125)
+			addconnection(119, 126)
+			addconnection(126, 137)
+			addconnection(137, 125)
+			addconnection(125, 138)
+			addconnection(138, 137)
+			addconnection(124, 138)
+			addconnection(139, 124)
+			addconnection(138, 139)
+			addconnection(123, 139)
+			addconnection(139, 136)
+			addconnection(139, 134)
+			addconnection(138, 135)
+			addconnection(137, 135)
+			addconnection(138, 134)
+			addconnection(122, 140)
+			addconnection(141, 140)
+			addconnection(136, 141)
+			addconnection(141, 142)
+			addconnection(142, 136)
+			addconnection(142, 143)
+			addconnection(143, 180)
+			addconnection(180, 179)
+			addconnection(179, 178)
+			addconnection(178, 177)
+			addconnection(177, 144)
+			addconnection(144, 180)
+			addconnection(180, 181)
+			addconnection(181, 144)
+			addconnection(144, 145)
+			addconnection(145, 146)
+			addconnection(146, 147)
+			addconnection(147, 148)
+			addconnection(148, 145)
+			addconnection(148, 149)
+			addconnection(149, 150)
+
+			addconnection(147, 133)
+			addconnection(133, 132)
+			addconnection(133, 167)
+			addconnection(132, 131)
+			addconnection(131, 168)
+			addconnection(131, 130)
+			addconnection(130, 169)
+			addconnection(130, 163)
+			addconnection(129, 163)
+			addconnection(129, 128)
+			addconnection(128, 126)
+			addconnection(128, 127)
+			addconnection(127, 126)
+			addconnection(127, 157)
+			addconnection(157, 162)
+			addconnection(162, 160)
+			addconnection(157, 158)
+			addconnection(182, 162)
+			addconnection(157, 182)
+			addconnection(182, 127)
+			addconnection(157, 156)
+			addconnection(156, 155)
+			addconnection(171, 155)
+			addconnection(171, 129)
+			addconnection(170, 129)
+			addconnection(170, 155)
+			addconnection(170, 171)
+			addconnection(154, 171)
+			addconnection(154, 155)
+			addconnection(152, 154)
+			addconnection(164, 152)
+			addconnection(151, 152)
+			addconnection(150, 151)
+			addconnection(130, 151)
+			addconnection(164, 150)
+			addconnection(158, 183)
+			addconnection(183, 156)
+			addconnection(183, 157)
+			addconnection(158, 159)
+			addconnection(184, 118)
+			addconnection(184, 117)
+			addconnection(184, 119)
+
+
+			// stairs
+			if (elevToggle < 0) {
+				addstairs(109, 4)
+				addstairs(105, 142)
+				addstairs(111, 171)
+				addstairs(117, 47)
+			}
+			//elevators
+			else {
+				addstairs(102, 116)
+				addstairs(116, 170)
+				addstairs(101, 178)
+			}
+
+			//start node value
+			var strt = document.getElementById("current").value;
+			//destination value
+			var dest = document.getElementById("destination").value;
+		}
+
+
+		function lineExc(a, b) {
+			if (b < a) {
+				var c = b;
+				b = a;
+				a = c;
+			}
+
+			if (a == 4 && b == 109) {
+				return false;
+			} else if (a == 105 && b == 142) {
+				return false;
+			} else if (a == 111 && b == 171) {
+				return false;
+			} else if (a == 47 && b == 117) {
+				return false;
+			} else if (a == 102 && b == 116) {
+				return false;
+			} else if (a == 116 && b === 170) {
+				return false;
+			} else if (a === 101 && b === 178) {
+				return false;
+			}
+			return true;
+		}
+
+		function main() {
+			//Dijkstra's Algorithm
+			function shortestPath(edges, numVertices, startVertex) {
+				var done = new Array(numVertices);
+				done[startVertex] = true;
+				var pathLengths = new Array(numVertices);
+				var predecessors = new Array(numVertices);
+				for (var i = 0; i < numVertices; i++) {
+					pathLengths[i] = edges[startVertex][i];
+					if (edges[startVertex][i] != Infinity) {
+						predecessors[i] = startVertex;
+					}
+				}
+				pathLengths[startVertex] = 0;
+				for (var i = 0; i < numVertices - 1; i++) {
+					var closest = -1;
+					var closestDistance = Infinity;
+					for (var j = 0; j < numVertices; j++) {
+						if (!done[j] && pathLengths[j] < closestDistance) {
+							closestDistance = pathLengths[j];
+							closest = j;
+						}
+					}
+					done[closest] = true;
+					for (var j = 0; j < numVertices; j++) {
+						if (!done[j]) {
+							if (closest < 0) { //javascript negative index function
+								closest += numVertices;
+							}
+							var possiblyCloserDistance = pathLengths[closest] + edges[closest][j];
+							if (possiblyCloserDistance < pathLengths[j]) {
+								pathLengths[j] = possiblyCloserDistance;
+								predecessors[j] = closest;
+							}
+						}
+					}
+				}
+				return {
+					"startVertex": startVertex,
+					"pathLengths": pathLengths,
+					"predecessors": predecessors
+				};
+			}
+
+			function constructPath(shortestPathInfo, endVertex) {
+				var path = [];
+				while (endVertex != shortestPathInfo.startVertex) {
+					path.unshift(endVertex);
+					endVertex = shortestPathInfo.predecessors[endVertex];
+				}
+				path.unshift(strt);
+				return path;
+			}
+
+			function getPath(cur, dest) {
+				ctx.globalAlpha = 1.0;
+				// get return value
+				// use the return as the index of the following coor array
+				var cur_x = coor.node[cur].x;
+				var cur_y = coor.node[cur].y;
+				var des_x = coor.node[dest].x;
+				var des_y = coor.node[dest].y;
+				if (lineExc(cur, dest)) {
+					ctx.beginPath(); // draw the path
+					ctx.moveTo(cur_x, cur_y); // set the start point
+					ctx.lineTo(des_x, des_y); // set the end point
+					ctx.lineWidth = 15;
+					ctx.strokeStyle = "#ffff00";
+					ctx.stroke(); // draw the line
+					ctx.beginPath();
+					ctx.lineWidth = 7.5;
+					ctx.strokeStyle = "#ffff00";
+					ctx.arc(coor.node[dest].x, coor.node[dest].y, 3.75, 0, 2 * Math.PI);
+					ctx.stroke();
+				}
+				else {
+					goStairs = true;
+					var stairnode = [109, 4, 105, 142, 111, 171, 117, 47];
+					var dir = [1, 1, 1, -1, -1, 1, 0, 0];
+					var direc = dir[stairnode.indexOf(cur)]
+					drawArrow(cur_x, cur_y, ctx, direc);
+					drawArrow(des_x, des_y - 83 * direc, ctx, -direc);
+				}
+			}
+
+
+			clear();
+			goStairs = false;
+			addconnections();
+
+			//start node value
+
+			var strt = document.getElementById("current").value;
+
+			///resume here
+			//destination value
+			var dest = document.getElementById("destination").value;
+
+			//the shortest path does not run through a room unless you start or end in said room
+						if (dest == 176 || strt == 176) {
+							addconnection(176, 53);
+							addconnection(176, 50);
+							addconnection(176, 76);
+							addconnection(176, 49);
+							addconnection(176, 55);
+							addconnection(176, 54);
+						}
+						if (dest == 165 || strt == 165) {
+							addconnection(146, 165)
+
+						}
+						if (dest == 166 || strt == 166) {
+							addconnection(166, 134);
+							addconnection(166, 133);
+						}
+						if (dest == 167 || strt == 167) {
+							addconnection(167, 132);
+							// addconnection(167, );
+						}
+						if (dest == 168 || strt == 168) {
+							addconnection(168, 135);
+							addconnection(168, 131);
+						}
+						if (dest == 164 || strt == 164) {
+							addconnection(164, 99);
+							addconnection(164, 161);
+						}
+			//			if (dest == 100 || strt == 100) {
+			//				addconnection(43, 100);
+			//				addconnection(53, 100);
+			//			}
+			//			if (dest == 101 || strt == 101) {
+			//				addconnection(44, 101);
+			//				addconnection(53, 101);
+			//			}
+
+			// Compute all shortest paths
+			var shortestPathInfo = shortestPath(e, matrixSize, strt);
+
+			//finds the closest bathroom to the starting node
+			if (dest == "bathroom") {
+				var bathnodes = ["60", "97", "98", "99", "100", "181", "160", "163"];
+				var min = 99999999;
+				var minindex = -1;
+				for (var i = 0; i < 8; i++) {
+					var a = shortestPathInfo.pathLengths[bathnodes[i]];
+					if (min > a) {
+						min = a;
+						minindex = i;
+					}
+				}
+				dest = bathnodes[minindex]; //change this
+			}
+
+			// Get the shortest path from node strt to node dest.
+			var finishedPath = constructPath(shortestPathInfo, dest);
+			ctx.clearRect(0, 0, 3714, 3714)
+			var ctxp = ctx;
+			var snum = document.getElementById("current").selectedIndex;
+			var dnum = document.getElementById("destination").selectedIndex;
+			if(strt!=185){
+		var x = coor.node[strt].x
+		var y = coor.node[strt].y
+		if(y<1965)
+			custFloors[0]=1;
+		else if(x<1419&&y>2034)
+			custFloors[0]=2;
+		else if(x>1491&&y>2034)
+			custFloors[0]=3;
+	}
+	if(dest!=187){
+		var x = coor.node[dest].x
+		var y = coor.node[dest].y
+		if(y<1965)
+			custFloors[1]=1;
+		else if(x<1419&&y>2034)
+			custFloors[1]=2;
+		else if(x>1491&&y>2034)
+			custFloors[1]=3;
+	}
+
+
+			ctxp.clearRect(0, 0, 3714, 3714);
+			var str = "" + custFloors
+			//	 alert(str)
+			console.log(str)
+			if (str.localeCompare("3,3") == 0)
+				grayOut(3, ctxp);
+			else if (str.localeCompare("2,2") == 0)
+				grayOut(2, ctxp);
+			else if (str.localeCompare("1,1") == 0)
+				grayOut(1, ctxp);
+			else if (str.localeCompare("1,2") == 0 || str.localeCompare("2,1") == 0)
+				grayOut(23, ctxp);
+			else if (str.localeCompare("2,3") == 0 || str.localeCompare("3,2") == 0)
+				grayOut(21, ctxp);
+			for (var i = 0; i < finishedPath.length - 1; i++) {
+				if (i == finishedPath.length - 2) {
+					drawStop(dest);
+					drawGo(strt);
+				}
+				getPath(finishedPath[i], finishedPath[i + 1]);
+			}
+		}
+
+	</script>
+</body>
+
+</html>
