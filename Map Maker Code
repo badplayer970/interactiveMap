@@ -284,6 +284,16 @@
 			width: 100px;
 			z-index: 100;
 		}
+		
+		.floatingmenu2 {
+			position: fixed;
+			right: 0px;
+			height: 100%;
+			background: gray;
+			padding: 5px;
+			width: 100px;
+			z-index: 100;
+		}
 
 		.maininterface {
 			margin-left: 105px;
@@ -291,15 +301,15 @@
 
 		input[type="button"] {
 			background-color: #ffffff;
-			font-size: 40px;
+			font-size: 20px;
 			font-weight: bold;
 			border: 0px;
 			border-radius: 25px
 		}
 
 		.button {
-			width: 100px;
-			height: 50px;
+			width: 75px;
+			height: 45px;
 			background-color: #eee;
 			font-size: 20px;
 			font-weight: bold;
@@ -462,7 +472,7 @@
          <button class="button" id="zoomOut" onclick="zoom(2)">Zoom Out</button><br>
 		<button class="button" id="btnAdd" value="Add Drop" onclick="addNodes(true,false)">Add Drop</button><br>
 		<button class="button" value="addNode" onclick="addNodes(false,false)">Add Nodes</button><br>
-		<button class="button" value="addBath" onclick="addNodes(false,true)">Add Bath</button>
+		<button class="button" value="addBath" onclick="addNodes(false,true)">Add Bath</button><br>
 		<button class="button" value="addCon" onclick="addCons(false)">Add Cons</button><br>
 		<button class="button" value="conStairs" onclick="addCons(true,false)">Add Stairs</button><br>
 		<button class="button" value="conElev" onclick="addCons(true,true)">Add Elev Con</button><br>
@@ -475,6 +485,13 @@
 		<div style="max-height:300px;overflow:auto;" id= "nodeList" >Node List</div>
 	</div>
 </sidebar>
+
+	<sidebar2>
+	<div id="coordList" class='floatingmenu2'>
+		<div style="max-height:300px;overflow:auto;" id= "coorList" >Coor List</div>
+		
+	</div>
+	</sidebar2>
 
 
 
@@ -771,7 +788,6 @@ function recode(){
 	drawNodes()
 }
 
-//new stuffa
 function addList(){
 	// alert(addCount2.toString())
 	var br = document.createElement("BR");
@@ -781,6 +797,7 @@ function addList(){
   	document.getElementById("nodeList").appendChild(txt);
 	var list = document.createElement("INPUT");
 	list.setAttribute("id", ("nameNode"+addCount2.toString()));
+	list.setAttribute("style", "width: 80px");
   	document.getElementById("nodeList").appendChild(list);
 }
 function remList(){
@@ -793,6 +810,30 @@ function remList(){
 	}
 	addCount2--;
 }
+
+function addCoorList(){
+	// alert(addCount2.toString())
+	var br = document.createElement("BR");
+  	document.getElementById("coordList").appendChild(br);
+	var txt = document.createElement("TEXT");
+	txt.innerHTML = addCount.toString()+"."
+  	document.getElementById("coordList").appendChild(txt);
+	var list = document.createElement("INPUT");
+	list.setAttribute("style", "width: 80px");
+	list.setAttribute("value", coor.node[addCount].x.toString()+" , "+coor.node[addCount].y.toString());
+  	document.getElementById("coordList").appendChild(list);
+}
+function remCoorList(){
+	var list = document.getElementById("coordList")
+	for(var i = namedNodes.indexOf(hoverNode);i<addCount-2;i++){
+		list.childNodes[(i+1)*3].value = list.childNodes[(i+2)*3].value
+	}
+	for(var i = 0;i<3;i++){
+		list.removeChild(list.lastChild);
+	}
+	addCount--;
+}
+
 function clearList(){
 	var list = document.getElementById("nodeList")
 	var i = list.childElementCount
@@ -873,6 +914,7 @@ function getCursorPosition2(event) {
 
 
 		drawNodes()
+		addCoorList()
 		if (dropAdd) {
 			addList()
 			namedNodes.push(addCount);
@@ -1034,11 +1076,19 @@ function hover() {
 	if(namedNodes.includes(hoverNode)){
 		document.getElementById("nodeList").childNodes[(namedNodes.indexOf(hoverNode)+1)*3].style.backgroundColor = "yellow";
 	}
+	if(hoverNode >-1){
+		console.log((hoverNode+1)*3+2)
+		document.getElementById("coordList").childNodes[(hoverNode+1)*3+2].style.backgroundColor = "yellow";
+	}
 	if(hoverNode==-1){
 		for(var i=0;i<namedNodes.length;i++)
 			if(i!=conA)
 				document.getElementById("nodeList").childNodes[(i+1)*3].style.backgroundColor = "";
+		for(var i =0; i<coor.node.length; i++){
+			document.getElementById("coordList").childNodes[(i+1)*3+2].style.backgroundColor = "";
+		}
 	}
+	//console.log(document.getElementById("coordList").childElementCount)
 }
 
 
@@ -1077,6 +1127,7 @@ function remGCP(event){
 			}
 			found = false
 		}
+		remCoorList()
 	}
 }
 
