@@ -495,7 +495,7 @@
 
 
 
-	</div>
+	
 	<br>
 	<center>
 	<p4 id="coordShow"></p4>
@@ -825,13 +825,12 @@ function addCoorList(){
 }
 function remCoorList(){
 	var list = document.getElementById("coordList")
-	for(var i = namedNodes.indexOf(hoverNode);i<addCount-2;i++){
-		list.childNodes[(i+1)*3].value = list.childNodes[(i+2)*3].value
+	for(var i = hoverNode;i<=addCount;i++){
+		list.childNodes[(i+1)*3+2].value = list.childNodes[(i+2)*3+2].value
 	}
 	for(var i = 0;i<3;i++){
 		list.removeChild(list.lastChild);
 	}
-	addCount--;
 }
 
 function clearList(){
@@ -1088,7 +1087,6 @@ function hover() {
 			document.getElementById("coordList").childNodes[(i+1)*3+2].style.backgroundColor = "";
 		}
 	}
-	//console.log(document.getElementById("coordList").childElementCount)
 }
 
 
@@ -1125,9 +1123,10 @@ function remGCP(event){
 				}
 				namedNodes.splice(namedNodes.indexOf(hoverNode),1)
 			}
+			remCoorList()
 			found = false
+			
 		}
-		remCoorList()
 	}
 }
 
