@@ -324,17 +324,18 @@
 			font-size: 20px;
 			font-weight: bold;
 			border: 0px;
-			border-radius: 25px
+			border-radius: 25px;
+			padding-bottom: 5px;
 		}
 
 		.button {
 			width: 75px;
 			height: 45px;
 			background-color: #eee;
-			font-size: 20px;
+			font-size: 18px;
 			font-weight: bold;
 			border: 0px;
-			border-radius: 25px
+			border-radius: 25px;
 		}
 
 		.list{
@@ -481,9 +482,10 @@
 <body>
 
 	<nav>
-		<a href="">Home</a>
+		<a>Map Maker</a>
+		<!--<a href="">Home</a>
 		<a href="about.html">About</a>
-		<a href="https://goo.gl/forms/nF6PKPHSmJbqG1W13">Contact</a>
+		<a href="https://goo.gl/forms/nF6PKPHSmJbqG1W13">Contact</a>-->
 	</nav>
 	<sidebar>
 	<div id="buttons" class='floatingmenu'>
