@@ -287,7 +287,7 @@
 		
 		.floatingmenu2 {
 			position: fixed;
-			right: 120px;
+			right: 155px;
 			height: 100%;
 			background: gray;
 			padding: 5px;
@@ -301,17 +301,17 @@
 			height: 100%;
 			background: gray;
 			padding: 5px;
-			width: 110px;
+			width: 150px;
 			z-index: 100;
 		}
 		
 		.floatDiv{
 			position: fixed;
-			right: 110px;
+			right: 150px;
 			height: 100%;
 			background: black;
 			padding: 5px;
-			width: 10px;
+			width: 5px;
 			z-index: 100;
 		}
 
@@ -851,7 +851,7 @@ function addCoorList(){
 	txt.innerHTML = addCount.toString()+"."
   	document.getElementById("coorList").appendChild(txt);
 	var list = document.createElement("INPUT");
-	list.setAttribute("style", "width: 50px");
+	list.setAttribute("style", "width: 75px");
 	//list.setAttribute("value", coor.node[addCount].x.toString()+" , "+coor.node[addCount].y.toString());
   	document.getElementById("coorList").appendChild(list);
 }
