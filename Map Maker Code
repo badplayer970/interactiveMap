@@ -20,7 +20,7 @@
 
 		body {
 			margin: 0;
-         padding: 0;
+			padding: 0;
 			background: #083C5D;
 		}
 
@@ -45,9 +45,13 @@
 			font-family: verdana;
 			font-size: 24px;
 			color: white;
-			
-		
 		}
+		p5 {
+			font-family: verdana;
+			font-size: 18px;
+			color: black;
+		}
+
 
 		nav {
 			backface-visibility: hidden;
@@ -314,6 +318,7 @@
 			width: 5px;
 			z-index: 100;
 		}
+		
 
 		.maininterface {
 			margin-left: 105px;
@@ -488,6 +493,7 @@
 		<a href="https://goo.gl/forms/nF6PKPHSmJbqG1W13">Contact</a>-->
 	</nav>
 	<sidebar>
+	<center>
 	<div id="buttons" class='floatingmenu'>
 		<button class="button" id="resetZoom" onclick="zoom(0)">Reset Zoom</button><br>
          <button class="button" id="zoomIn" onclick="zoom(1)">Zoom In</button><br>
@@ -495,21 +501,22 @@
 		<button class="button" id="btnAdd" value="Add Drop" onclick="addNodes(true,false)">Add Drop</button><br>
 		<button class="button" value="addNode" onclick="addNodes(false,false)">Add Nodes</button><br>
 		<button class="button" value="addBath" onclick="addNodes(false,true)">Add Bath</button><br>
-		<button class="button" value="addCon" onclick="addCons(false)">Add Cons</button><br>
+		<button class="button" value="addCon" onclick="addCons(false)">Connect</button><br>
 		<button class="button" value="conStairs" onclick="addCons(true,false)">Add Stairs</button><br>
-		<button class="button" value="conElev" onclick="addCons(true,true)">Add Elev Con</button><br>
+		<button class="button" value="conElev" onclick="addCons(true,true)">Elev Con</button><br>
 		<button class="button" value="removeNode" onclick="remNode()">Remove Node</button><br>
-		<button class="button" value="addLine" onclick="addLine()">Add on Line</button><br>
+		<button class="button" value="addLine" onclick="addLine()">AddLine</button><br>
 		<br>
 		<button class="button" value="printInfo" onclick="printInfo()">print</button><br>
 		<button class="button" value="recode" onclick="recode()">recode</button>
 
 	</div>
+	</center>
 </sidebar>
 
 	<sidebar2>
 		<div id="NodeListOuter" class='floatingmenu2'>
-			<div style="max-height:800px;overflow:auto;" id= "nodeList" >Node List</div>
+			<div style="max-height:800px;overflow:auto;" id= "nodeList" ><p5>Node List</p5></div>
 		</div>
 	</sidebar2>
 
@@ -517,7 +524,7 @@
 
 	<sidebar3>
 	<div id="coordList" class='floatingmenu3'>
-		<div style="max-height:800px;overflow:auto;" id= "coorList" >Coor List</div>
+		<div style="max-height:800px;overflow:auto;" id= "coorList" ><p5>Coor List</p5></div>
 		
 	</div>
 	</sidebar3>
@@ -536,8 +543,8 @@
 		<input type="file" accept='.jpg,.png' id="imageLoader" name="imageLoader" onchange='handleImage(event);'>
 	<br>
 
-	<textarea id = print></textarea>
-	<textarea id = reco></textarea>
+	<textarea id = "print" style = "left:30px"></textarea>
+	<textarea id = "reco"></textarea>
 
 
 
