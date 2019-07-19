@@ -318,7 +318,6 @@
 			width: 5px;
 			z-index: 100;
 		}
-		
 
 		.maininterface {
 			margin-left: 105px;
@@ -543,8 +542,8 @@
 		<input type="file" accept='.jpg,.png' id="imageLoader" name="imageLoader" onchange='handleImage(event);'>
 	<br>
 
-	<textarea id = "print" style = "left:30px"></textarea>
-	<textarea id = "reco"></textarea>
+	<textarea id = 'print'></textarea>
+	<textarea id = 'reco'></textarea>
 
 
 
@@ -572,7 +571,7 @@
 
 			</div>
 			</center> -->
-			<div id='canvases'>
+			<div id='canvases' style="max-width:1500px" style 4="max-height:700px">
                <canvas id='background' style='z-index: 1'></canvas>
                <canvas id='map' style='z-index: 2'></canvas>
                <canvas id='overlay' style='z-index: 3'></canvas>
@@ -919,17 +918,17 @@ function addNodes(drop,bath) {
 		remTog = true;
 	if (!lineTog)
 		lineTog = true;
-	cano.addEventListener("click", getCursorPosition2);
+	cano.addEventListener("click", addNodeGCP);
 
 	dropAdd = drop;
 	bathAdd = bath;
 
 }
 
-function getCursorPosition2(event) {
+function addNodeGCP(event) {
 
 	if (addTog)
-		cano.removeEventListener("click", getCursorPosition2);
+		cano.removeEventListener("click", addNodeGCP);
 	else {
 		addX = 0;
 		addY = 0;
@@ -976,7 +975,7 @@ function addCons(stairs,elev) {
 		remTog = true;
 	if (!lineTog)
 		lineTog = true;
-	cano.addEventListener("click", getCursorPosition3);
+	cano.addEventListener("click", addConGCP);
 	stairAdd = stairs
 	elevAdd = elev;
 }
@@ -984,9 +983,9 @@ var conA;
 var conB;
 var conClicked = false
 
-function getCursorPosition3(event) {
+function addConGCP(event) {
 	if (conTog)
-		cano.removeEventListener("click", getCursorPosition3);
+		cano.removeEventListener("click", addConGCP);
 	else {
 	if(found){
 		var rect = cano.getBoundingClientRect();
@@ -1231,21 +1230,22 @@ function lineGCP(event) {
 		}
 		else{
 			if( segdist(x,y,curr_x,curr_y,dest_x,dest_y,false)<=250){
-			var ptl = segdist(x,y,curr_x,curr_y,dest_x,dest_y,true)
-			coor.node.push({
-			"x": ptl[0],
-			"y": ptl[1],
-			})
-			addCoorList();
-			e[addCount] = []
-			var _ = Infinity;
-			for (var k = 0; k < addCount + 1; k++) {
-				e[addCount][k] = _;
-				e[k][addCount] = _;
+				var ptl = segdist(x,y,curr_x,curr_y,dest_x,dest_y,true)
+				coor.node.push({
+				"x": ptl[0],
+				"y": ptl[1],
+				})
+				addCoorList()
+				document.getElementById("coorList").childNodes[(addCount+1)*3].value=coor.node[addCount].x+" , " + coor.node[addCount].y
+				e[addCount] = []
+				var _ = Infinity;
+				for (var k = 0; k < addCount + 1; k++) {
+					e[addCount][k] = _;
+					e[k][addCount] = _;
+				}
+				addConnection(addCount,linA)
+				addConnection(addCount,linB)
 			}
-			addConnection(addCount,linA)
-			addConnection(addCount,linB)
-		}
 		}
 		drawNodes()
 	}
@@ -1275,9 +1275,9 @@ function segdist(x, y, x1, y1, x2, y2, points) {
 	var dx = x - xx;
 	var dy = y - yy;
 	if (points) {
-		return [xx, yy];
+		return [Math.round(xx), Math.round(yy)];
 	}
-	return dx * dx + dy * dy;
+	return Math.round(dx * dx + dy * dy);
 }
 // function dropdownfunc(){
 // 	if (document.getElementById("current").value != "#" && document.getElementById("destination").value != "#"){
