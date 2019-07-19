@@ -1040,7 +1040,7 @@ function addConGCP(event) {
 				}
 				else{
 					addConnection(conA, conB);
-					conne.push("addConnections("+conA+","+conB+")")
+					conne.push("addConnection("+conA+","+conB+")")
 					conne.push([conA,conB])
 				}
 				drawNodes()
@@ -1182,9 +1182,11 @@ function addLine(){
 }
 var linA
 var linB
+var lineList = [];
 function lineGCP(event) {
 	if (lineTog){
 		lineCount = 0
+		lineList = [];
 		cano.removeEventListener("click", lineGCP);
 		}
 	else {
@@ -1195,6 +1197,7 @@ function lineGCP(event) {
 		var dc = false;
 		var dd = false;
 		lineCount++;
+
 		// ctx.clearRect(0,0,ccon.width,ccon.height)
 
 		if(lineCount<3&& found){
@@ -1206,6 +1209,7 @@ function lineGCP(event) {
 					curr_x = coor.node[i].x;
 					curr_y = coor.node[i].y;
 					linA = i;
+					lineList.push(linA);
 					dc = true;
 					dd = false
 					//conClicked = true;
@@ -1214,6 +1218,7 @@ function lineGCP(event) {
 					dest_x = coor.node[i].x;
 					dest_y = coor.node[i].y;
 					linB = i;
+					lineList.push(linB)
 					dd = true
 					dc = false
 					//conClicked = false;
@@ -1239,13 +1244,27 @@ function lineGCP(event) {
 				document.getElementById("coorList").childNodes[(addCount+1)*3].value=coor.node[addCount].x+" , " + coor.node[addCount].y
 				e[addCount] = []
 				var _ = Infinity;
+				lineList.push(addCount)
 				for (var k = 0; k < addCount + 1; k++) {
 					e[addCount][k] = _;
 					e[k][addCount] = _;
 				}
-				addConnection(addCount,linA)
-				addConnection(addCount,linB)
+				//addConnection(addCount,linA)
+				//conne.push("addConnection("+addCount+","+linA+")")
+				//conne.push([addCount,linA])
+				//addConnection(addCount,linB)
+				//conne.push("addConnection("+addCount+","+linB+")")
+				//conne.push([addCount,linB])
+				console.log(lineList)
+				for(var i = 0;i<lineList.length-1;i++){
+					for(var j = 1;j<lineList.length;j++){
+						addConnection(lineList[i],lineList[j])
+						conne.push("addConnection("+lineList[i]+","+lineList[j]+")")
+						conne.push([lineList[i],lineList[j]])
+					}
+				}
 			}
+			
 		}
 		drawNodes()
 	}
@@ -1359,6 +1378,7 @@ var coor = {
 }
 
 function addConnection(a, b) {
+	console.log("out")
 	var c = Math.hypot(coor.node[a].x - coor.node[b].x, coor.node[a].y - coor.node[b].y)
 	e[a][b] = c;
 	e[b][a] = c;
