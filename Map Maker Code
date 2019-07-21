@@ -702,6 +702,15 @@ function pop() {
 
 function printInfo(){
 
+	if (!addTog)
+		addTog = true;
+	if (!conTog)
+		conTog = true;
+	if (!remTog)
+		remTog = true;
+	if (!lineTog)
+		lineTog = true;
+	
 	document.getElementById("print").innerHTML = ("coor\n")
 	for(var i = 0; i <coor.node.length;i++){
 		document.getElementById("print").innerHTML+=(JSON.stringify(coor.node[i])+"\n")
@@ -1040,8 +1049,8 @@ function addConGCP(event) {
 				}
 				else{
 					addConnection(conA, conB);
-					conne.push("addConnection("+conA+","+conB+")")
-					conne.push([conA,conB])
+					//conne.push("addConnection("+conA+","+conB+")")
+					//conne.push([conA,conB])
 				}
 				drawNodes()
 				if(namedNodes.includes(conA)){
@@ -1183,12 +1192,15 @@ function addLine(){
 var linA
 var linB
 var lineList = [];
+var tempList = [];
 function lineGCP(event) {
 	if (lineTog){
+		
+	
 		lineCount = 0
 		lineList = [];
 		cano.removeEventListener("click", lineGCP);
-		}
+	}
 	else {
 		var rect = cano.getBoundingClientRect();
 		var x = (event.clientX - rect.left) * can.width / rect.width;
@@ -1235,6 +1247,7 @@ function lineGCP(event) {
 		}
 		else{
 			if( segdist(x,y,curr_x,curr_y,dest_x,dest_y,false)<=250){
+			
 				var ptl = segdist(x,y,curr_x,curr_y,dest_x,dest_y,true)
 				coor.node.push({
 				"x": ptl[0],
@@ -1254,20 +1267,59 @@ function lineGCP(event) {
 				//conne.push([addCount,linA])
 				//addConnection(addCount,linB)
 				//conne.push("addConnection("+addCount+","+linB+")")
-				//conne.push([addCount,linB])
-				console.log(lineList)
-				for(var i = 0;i<lineList.length-1;i++){
-					for(var j = 1;j<lineList.length;j++){
-						addConnection(lineList[i],lineList[j])
-						conne.push("addConnection("+lineList[i]+","+lineList[j]+")")
-						conne.push([lineList[i],lineList[j]])
-					}
-				}
+				//conne.push([addCount,linB])	
+				
+				tempList = lineList
+				lineCon()
+				
 			}
-			
 		}
 		drawNodes()
 	}
+}
+
+function lineCon(){
+	for (var i=0;i<tempList.length-1;i++){
+		for (var j=1;j<tempList.length;j++){
+			breakConnection(tempList[i],tempList[j])
+		}
+	}
+
+	for(var i=0;i<tempList.length;i++){
+		var cloNodes = [0,0];
+		var max1 =10000
+		var max2 = 10000
+		
+			for(var j=0;j<tempList.length;j++){
+				var c = Math.hypot(coor.node[i].x - coor.node[j].x, coor.node[i].y - coor.node[j].y)
+				if(c<max1&&c>0){
+					cloNodes[1] = cloNodes[0]
+					max2 = max1+0
+				
+					cloNodes[0] = j
+					max1 = c
+				}
+				else if(c<=max2&&c>0){
+					cloNodes[1] = j
+					max2 = c
+				}
+				if(j==0||j==1){
+					if(max1>max2)
+						cloNodes[0] = cloNodes[1]
+				}
+				
+			}
+		if(e[tempList[i]][tempList[cloNodes[0]]] ==_){
+			addConnection(tempList[i],tempList[cloNodes[0]])
+		}
+		
+		if(i>1){
+			if(e[tempList[i]][tempList[cloNodes[1]]] ==_){
+				addConnection(tempList[i],tempList[cloNodes[1]])				
+			}
+		}
+	}
+	drawNodes()
 }
 
 function segdist(x, y, x1, y1, x2, y2, points) {
@@ -1378,10 +1430,11 @@ var coor = {
 }
 
 function addConnection(a, b) {
-	console.log("out")
 	var c = Math.hypot(coor.node[a].x - coor.node[b].x, coor.node[a].y - coor.node[b].y)
 	e[a][b] = c;
 	e[b][a] = c;
+	conne.push("addConnection("+a+","+b+")")
+	conne.push([a,b])
 }
 
 function addstairs(a, b, c) {
@@ -1531,6 +1584,15 @@ function breakCustConnections(number) {
 		e[j][number] = _;
 		e[number][j] = _;
 	}
+}
+
+function breakConnection(a,b){
+	e[a][b] = _;
+	e[b][a] = _;
+	if(conne.includes("addConnection("+a+","+b+")"))
+		conne.splice(conne.indexOf("addConnection("+a+","+b+")"),conne.indexOf("addConnection("+a+","+b+")")+2)
+	if(conne.includes("addConnection("+b+","+a+")"))
+		conne.splice(conne.indexOf("addConnection("+b+","+a+")"),conne.indexOf("addConnection("+b+","+a+")")+2)
 }
 
 function addconnections() {
