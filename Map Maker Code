@@ -1044,7 +1044,7 @@ function addConGCP(event) {
 			if (curr_x != 0 && curr_y != 0 && dest_x != 0 && dest_y != 0 && conCount % 2 == 0) {
 				if(stairAdd){
 					addstairs(conA,conB,10000)
-					conne.push("addstairs("+conA+","+conB+")")
+					//conne.push("addstairs("+conA+","+conB+")")
 					if(elevAdd){
 						if(!elevNodes.includes([conA,conB])&&!elevNodes.includes([conB,conA]))
 							elevNodes.push([conA,conB])
@@ -1444,8 +1444,12 @@ if(e[a][b]==_){
 }
 
 function addstairs(a, b, c) {
+if(e[a][b]==_){
 	e[a][b] = c;
 	e[b][a] = c;
+	conne.push("addStairs("+a+","+b+")")
+	conne.push([a,b])
+	}
 }
 
 function nogo(click) {
