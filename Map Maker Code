@@ -571,7 +571,7 @@
 
 			</div>
 			</center> -->
-			<div id='canvases' style="max-width:1500px" style 4="max-height:700px">
+			<div id='canvases' style="max-width:1500px" style 4="max-height:700px" onmouseover="canMouse()">
                <canvas id='background' style='z-index: 1'></canvas>
                <canvas id='map' style='z-index: 2'></canvas>
                <canvas id='overlay' style='z-index: 3'></canvas>
@@ -698,6 +698,10 @@ cano.addEventListener("mousemove", mouseHover);
 function pop() {
 	var popup = document.getElementById("myPopup");
 	popup.classList.toggle("show");
+}
+
+function canMouse(){
+	document.getElementById("canvases").style.cursor = "crosshair";
 }
 
 function printInfo(){
@@ -1429,12 +1433,14 @@ var coor = {
 	"node": []
 }
 
-function addConnection(a, b) {
+function addConnection(a, b){
+if(e[a][b]==_){
 	var c = Math.hypot(coor.node[a].x - coor.node[b].x, coor.node[a].y - coor.node[b].y)
 	e[a][b] = c;
 	e[b][a] = c;
 	conne.push("addConnection("+a+","+b+")")
 	conne.push([a,b])
+	}
 }
 
 function addstairs(a, b, c) {
