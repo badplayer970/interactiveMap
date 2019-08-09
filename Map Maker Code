@@ -21,6 +21,7 @@
 		body {
 			margin: 0;
 			padding: 0;
+			padding: 0;
 			background: #083C5D;
 		}
 
@@ -516,7 +517,7 @@
 
 	<sidebar2>
 		<div id="NodeListOuter" class='floatingmenu2'>
-			<div style="max-height:800px;overflow:auto;" id= "nodeList" ><p5>Node List</p5></div>
+			<div style="max-height:700px;overflow:auto;" id= "nodeList" ><p5>Node List</p5></div>
 		</div>
 	</sidebar2>
 
@@ -524,7 +525,7 @@
 
 	<sidebar3>
 	<div id="coordList" class='floatingmenu3'>
-		<div style="max-height:800px;overflow:auto;" id= "coorList" ><p5>Coor List</p5></div>
+		<div style="max-height:700px;overflow:auto;" id= "coorList" ><p5>Coor List</p5></div>
 		
 	</div>
 	</sidebar3>
@@ -570,7 +571,7 @@
 
 			</div>
 			</center> -->
-			<div id='canvases' style="max-width:1500px" style 4="max-height:700px" onmouseover="canMouse()">
+			<div id='canvases' style="max-width:1110px" style 4="max-height:700px" onmouseover="canMouse()">
                <canvas id='background' style='z-index: 1'></canvas>
                <canvas id='map' style='z-index: 2'></canvas>
                <canvas id='overlay' style='z-index: 3'></canvas>
@@ -1084,6 +1085,8 @@ function mouseHover(event) {
 	document.getElementById("coordShow").innerHTML = cor;
 	if(found){
 		var corN = hoverNode + " x:" + coor.node[hoverNode].x + " y:" + coor.node[hoverNode].y
+		if(namedNodes.includes(hoverNode))
+			corN += " Named: "+ (namedNodes.indexOf(hoverNode)+1)
 		document.getElementById("nodeCoor").innerHTML = corN;
 	}
 
