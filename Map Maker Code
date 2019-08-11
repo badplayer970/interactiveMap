@@ -932,6 +932,8 @@ function addNodes(drop,bath) {
 		remTog = true;
 	if (!lineTog)
 		lineTog = true;
+	if (!movTog)
+		movTog = true;
 	cano.addEventListener("click", addNodeGCP);
 
 	dropAdd = drop;
@@ -989,6 +991,8 @@ function addCons(stairs,elev) {
 		remTog = true;
 	if (!lineTog)
 		lineTog = true;
+	if (!movTog)
+		movTog = true;
 	cano.addEventListener("click", addConGCP);
 	stairAdd = stairs
 	elevAdd = elev;
@@ -1054,8 +1058,6 @@ function addConGCP(event) {
 				}
 				else{
 					addConnection(conA, conB);
-					//conne.push("addConnection("+conA+","+conB+")")
-					//conne.push([conA,conB])
 				}
 				drawNodes()
 				if(namedNodes.includes(conA)){
@@ -1153,6 +1155,8 @@ function remNode(){
 		conTog = true;
 	if (!lineTog)
 		lineTog = true;
+	if (!movTog)
+		movTog = true;
 	cano.addEventListener("click", remGCP);
 
 }
@@ -1194,6 +1198,8 @@ function addLine(){
 		conTog = true;
 	if (!remTog)
 		remTog = true;
+	if (!movTog)
+		movTog = true;
 	cano.addEventListener("click", lineGCP);
 }
 var linA
